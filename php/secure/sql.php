@@ -6,6 +6,7 @@ function getHash($string) {
 }
 
 function right_pwd($alias, $pwd) {
+    $return = -1;
     $pwd_hash = getHash($pwd);
 
     $stmt = $dbh->prepare("Select * FROM users where alias=:alias and pwd_hash=:pwd_hash;");
@@ -13,12 +14,14 @@ function right_pwd($alias, $pwd) {
     $stmt->bindParam(':pwd_hash', $pwd_hash);
     if($stmt->execute() && $stmt->rowCount() == 1) {
         $row = $stmt->fetch();
-        return $row['id'];
+        $return =  $row['id'];
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function createUser($alias, $pwd) {
+    $return = -1;
     if (right_pwd($alias, $pwd) == -1) {
         $pwd_hash = getHash($pwd);
     
@@ -26,13 +29,15 @@ function createUser($alias, $pwd) {
         $stmt->bindParam(':alias', $alias);
         $stmt->bindParam(':pwd_hash', $pwd_hash);
         if($stmt->execute()) {
-            return right_pwd($alias, $pwd);
+            $return =  right_pwd($alias, $pwd);
         }
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function createSession($user_id) {
+    $return = -1;
     $timestamp = date_timestamp_get(date_create());
     $session_key = getHash($timestamp);
 
@@ -41,20 +46,23 @@ function createSession($user_id) {
     $stmt->bindParam(':session_key', $session_key);
     $stmt->bindParam(':login', $timestamp);
     if($stmt->execute()) {
-        return $session_key;
+        $return =  $session_key;
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function checkSession($session_key) {
+    $return = -1;
 
-    $stmt = $dbh->prepare("Select user_id FROM sessions where session_key=:session_key and logout IS NULL;");
+    $stmt = $dbh->prepare("Select id FROM sessions where session_key=:session_key and logout IS NULL;");
     $stmt->bindParam(':session_key', $session_key);
     if($stmt->execute() && $stmt->rowCount() == 1) {
         $row = $stmt->fetch();
-        return $row['user_id'];
+        $return =  $row['id'];
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function closeSession($session_key) {
@@ -64,9 +72,23 @@ function closeSession($session_key) {
     $stmt->bindParam(':logout', $timestamp);
     $stmt->bindParam(':session_key', $session_key);
     $stmt->execute();
+    $stmt->closeCursor();
+}
+
+function getGameId($id_name) {
+    $return = -1;
+    $stmt = $dbh->prepare("Select id from games where id_name=:id_name;");
+    $stmt->bindParam(':id_name', $id_name);
+    if($stmt->execute()) {
+        $row = $stmt->fetch();
+        $return =  $row['id'];
+    }
+    $stmt->closeCursor();
+    return $return;
 }
 
 function createGameSession($session_id, $game_id) {
+    $return = -1;
     $session_key = getHash(date_timestamp_get(date_create()));
 
     $stmt = $dbh->prepare("INSERT INTO game_sessions (session_id, game_id, session_key) VALUES (:session_id, :game_id, :session_key);");
@@ -74,35 +96,50 @@ function createGameSession($session_id, $game_id) {
     $stmt->bindParam(':game_id', $game_id);
     $stmt->bindParam(':session_key', $session_key);
     if($stmt->execute()) {
-        return $session_key;
+        $return =  $session_key;
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function checkGameSession($session_key) {
-    //TODO
+    $return = -1;
+
+    $stmt = $dbh->prepare("Select game_sessions.id, game_id, user_id FROM game_sessions inner join sessions on sessions.id=game_sessions.session_id where game_sessions.session_key=:session_key;");
+    $stmt->bindParam(':session_key', $session_key);
+    if($stmt->execute() && $stmt->rowCount() == 1) {
+        $row = $stmt->fetch();
+        $return = array('id' => $row['id'], 'game' => $row['game_id'], 'user' => $row['user_id']);
+    }
+    $stmt->closeCursor();
+    return $return;
 }
 
 function closeGameSession($session_key) {
     //TODO
 }
+
 function getAllGames() {
+    $return = -1;
     $stmt = $dbh->prepare("Select id, name, path from games;");
     if($stmt->execute()) {
-        return $stmt->fetchAll();
+        $return = $stmt->fetchAll();
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function insertScore($game_id, $user_id, $score) {
+    $return = FALSE;
     $stmt = $dbh->prepare("INSERT INTO scores (game_id, user_id, created, points) VALUES (:game_id, :user_id, NOW(), :points);");
     $stmt->bindParam(':game_id', $game_id);
     $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':points', $score);
     if($stmt->execute()) {
-        return TRUE;
+        $return = TRUE;
     }
-    return FALSE;
+    $stmt->closeCursor();
+    return $return;
 }
 
 

@@ -18,7 +18,8 @@ logout TIMESTAMP NULL DEFAULT NULL
 
 CREATE TABLE games (
 id int NOT NULL PRIMARY KEY,
-name varchar(50),
+id_name char(50) UNIQUE,
+display_name varchar(50),
 path varchar(50)
 );
 
