@@ -1,5 +1,6 @@
 <?php
-require_once 'secure/sql.php';
+require_once 'sql.php';
+require_once 'paths.php';
 
 
 function login() {
@@ -7,7 +8,7 @@ function login() {
         session_start();
 
         $username = $_POST['username'];
-        $passwort = $_POST['password'];
+        $password = $_POST['password'];
 
         $user_id = right_pwd($username, $password);
         if ($user_id != -1) {
@@ -15,27 +16,37 @@ function login() {
             if($session_key != -1) {
                 $_SESSION['loggedin'] = true;
                 
-                //TODO cookie erstellen + weiterleitung
+                setCookie('gamesmoon', $session_key);
+                //header('Location: '.$HOME);
+                //exit;
+                echo("LOGIN");
             }
         }
     }
 }
 
 function logout() {
+    global $LOGIN;
     session_start();
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['session_key'])) {
-        $session_key = $_POST['session_key'];
+    if (isset($_COOKIE["gamesmoon"])) {
+        $session_key = $_COOKIE["gamesmoon"];
         closeSession($session_key);
     }
     session_destroy();
     
-    //TODO cookie löschen + weiterleitung
+    //negativer Wert für Verfallszeitpunkt löscht Cookie
+    setCookie('gamesmoon', '', -100);
+    
+    header('Location: '.$LOGIN);
+    exit;
 }
 
 function auth() {
+    global $LOGIN;
     session_start();
     if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
-        //TODO weiterleitung
+        header('Location: '.$LOGIN);
+        exit;
     }
 }
 
