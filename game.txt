@@ -1,0 +1,15 @@
+Authentifizierung eines Spiels:
+
+- Spiel muss eindeutigennamen besitzen der auch in der DB vorhanden ist
+- sesson_key  aus Cookie auslesen (cookie-name: gamesmoon)
+
+- HTTP-Anfrage an game_auth.php mit Session-Key (session_key) und Spielname (game_name)
+- wenn die Authentifizierung erfolgreich ist dann folgende Rückgabe: { "session": "...", "game_name": "...", "game_session": "..." }
+- die erhaltene Game-Session-Key speichern (wird für das Senden von Scores benötigt)
+
+
+Das Senden von Scores an den Server:
+
+- vorher muss die Authentifizierung stattgefunden haben und somit eine Game-Session vorhanden sein
+- HTTP-Anfrage mit Game-Session (game_session) und Punktestand (score)
+- folgende Rückgabe: { "session": "...", "score": "...", "insert": true/false }
