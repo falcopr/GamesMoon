@@ -132,7 +132,7 @@ function getAllGames() {
     $return = -1;
     
     $dbh = getdbh();
-    $stmt = $dbh->prepare("Select id, name, path from games;");
+    $stmt = $dbh->prepare("Select id, display_name, path from games;");
     if($stmt->execute()) {
         $return = $stmt->fetchAll();
     }
@@ -157,24 +157,29 @@ function insertScore($game_id, $user_id, $score) {
 
 
 function getAllScores($game_id) {
+    $return = -1;
+    
     $dbh = getdbh();
     $stmt = $dbh->prepare("Select scores.id, users.alias, created, points from scores inner join users on scores.user_id = users.id where scores.game_id=:game_id;");
     $stmt->bindParam(':game_id', $game_id);
     if($stmt->execute()) {
-        return $stmt->fetchAll();
+        $return = $stmt->fetchAll();
     }
-    return -1;
+    $stmt->closeCursor();
+    return $return;
 }
 
 function getOwnScores($game_id, $user_id) {
+    $return = -1;
+    
     $dbh = getdbh();
     $stmt = $dbh->prepare("Select id, created, points from scores where scores.game_id=:game_id and user_id=:user_id;");
     $stmt->bindParam(':game_id', $game_id);
     $stmt->bindParam(':user_id', $user_id);
     if($stmt->execute()) {
-        return $stmt->fetchAll();
+        $return =  $stmt->fetchAll();
     }
-    return -1;
+    return $return;
 }
 
 function getAllHighScores($game_id) {

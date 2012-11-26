@@ -17,9 +17,9 @@ function login() {
                 $_SESSION['loggedin'] = true;
                 
                 setCookie('gamesmoon', $session_key);
-                //header('Location: '.$HOME);
-                //exit;
-                echo("LOGIN");
+                header('Location: '.$HOME);
+                exit;
+                //echo("LOGIN");
             }
         }
     }
