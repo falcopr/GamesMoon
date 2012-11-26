@@ -21,7 +21,6 @@ public class ViewContainer extends DefaultPicoContainer
     
     public static void initializeToProductiveContainer()
     {
-        m_ViewContainer.addComponent(IMainMenuView.class, MainMenuView.class);
         m_ViewContainer.addComponent(IPlayingAreaView.class, PlayingAreaView.class);
     }
 }
