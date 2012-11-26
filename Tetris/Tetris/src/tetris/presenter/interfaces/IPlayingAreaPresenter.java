@@ -5,5 +5,5 @@ import tetris.view.interfaces.IPlayingAreaView;
 public interface IPlayingAreaPresenter
 {
     void setView(IPlayingAreaView view);
-    void initializePlayingArea();
+    void initializePlayingArea() throws Exception;
 }

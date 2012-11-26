@@ -1,5 +1,6 @@
 package tetris.view;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
@@ -15,12 +16,25 @@ public class PlayingAreaView extends JPanel implements IPlayingAreaView
     private JPanel m_TetrisMatrixArea;
     private JPanel m_HeaderArea;
     
+    private JLabel m_ScoreLabel;
+    private JLabel m_UserNameLabel;
+    private JLabel m_LevelLabel;
+    
+    private JLabel m_HeaderText;
+    
     private IPlayingAreaPresenter m_Presenter;
     
     public PlayingAreaView() {
         m_Presenter = PresenterContainer.getPresenterContainer().getComponent(IPlayingAreaPresenter.class);
         m_Presenter.setView(this);
-        m_Presenter.initializePlayingArea();
+        
+        try
+        {
+            m_Presenter.initializePlayingArea();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public JPanel getInfoArea()
@@ -51,5 +65,45 @@ public class PlayingAreaView extends JPanel implements IPlayingAreaView
     public void setHeaderArea(JPanel headerArea)
     {
         this.m_HeaderArea = headerArea;
+    }
+
+    public JLabel getScoreLabel()
+    {
+        return m_ScoreLabel;
+    }
+
+    public void setScoreLabel(JLabel scoreLabel)
+    {
+        this.m_ScoreLabel = scoreLabel;
+    }
+
+    public JLabel getUserNameLabel()
+    {
+        return m_UserNameLabel;
+    }
+
+    public void setUserNameLabel(JLabel userNameLabel)
+    {
+        this.m_UserNameLabel = userNameLabel;
+    }
+
+    public JLabel getLevelLabel()
+    {
+        return m_LevelLabel;
+    }
+
+    public void setLevelLabel(JLabel levelLabel)
+    {
+        this.m_LevelLabel = levelLabel;
+    }
+
+    public JLabel getHeaderText()
+    {
+        return m_HeaderText;
+    }
+
+    public void setHeaderText(JLabel headerText)
+    {
+        this.m_HeaderText = headerText;
     }
 }

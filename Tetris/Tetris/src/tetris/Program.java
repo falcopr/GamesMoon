@@ -2,8 +2,13 @@ package tetris;
 
 import java.applet.Applet;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.presenter.container.PresenterContainer;
 import tetris.view.container.ViewContainer;
+import tetris.view.interfaces.IPlayingAreaView;
 
 public class Program extends Applet
 {
@@ -11,7 +16,6 @@ public class Program extends Applet
 
     public static void main(String[] args)
     {
-        ViewContainer.initializeToProductiveContainer();
         //framework should handle the right time to create GUI
         //javax.swing.SwingUtilities.invokeLater(null);
     }
@@ -19,13 +23,29 @@ public class Program extends Applet
 	@Override
 	public void init() {
 		super.init();
+		
         ViewContainer.initializeToProductiveContainer();
         PresenterContainer.initializeToProductiveContainer();
+        BusinessLogicContainer.initializeToProductiveContainer();
+        
+        IPlayingAreaView startingView = ViewContainer.getViewContainer().getComponent(IPlayingAreaView.class);
+        
+        // Frame for testpurposes
+        JFrame f = new JFrame("Test");
+        f.add("Center", (JPanel) startingView);
+        f.setSize(640, 480);
+        
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.pack();
+        f.setResizable(false);
+        f.setVisible(true);
+        
 	}
 	
 	@Override
 	public void start() {
 		super.start();
+		
 		try {
 			//add(t.getContentPane());
 		} catch (Exception e) {
