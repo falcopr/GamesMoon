@@ -1,10 +1,14 @@
 package tetris.view;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
@@ -49,24 +53,22 @@ public class PlayingAreaView implements IPlayingAreaView
         m_Presenter = PresenterContainer.getPresenterContainer().getComponent(IPlayingAreaPresenter.class);
         m_Presenter.setView(this);
         
-        m_PlayingAreaPanel.addKeyListener(getKeyListener());
-        
-        try
-        {
+        try {
             m_Presenter.initializePlayingArea();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        m_PlayingAreaPanel.addKeyListener(getKeyListener());
     }
 
     public KeyListener getKeyListener()
     {
         return new KeyListener() {
-
             @Override
             public void keyPressed(KeyEvent evt)
             {
+                System.out.println(evt.getKeyCode());
                 switch (evt.getKeyCode()) {
                 case SHIFTLEFT:
                     m_Presenter.shiftTetrominoLeft();

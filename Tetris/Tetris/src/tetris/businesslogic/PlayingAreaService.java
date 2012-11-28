@@ -123,6 +123,9 @@ public class PlayingAreaService implements IPlayingAreaService
         userName.setBounds(0, 0, userNameDimension.width, userNameDimension.height);
         level.setBounds(0, 0, levelDimension.width, levelDimension.height);
         
+        // Panel must be focused, or else it wont react to keylisteners
+        playingAreaPanel.setFocusable(true);
+        playingAreaPanel.requestFocusInWindow();
         playingAreaPanel.setVisible(true);
     }
 }

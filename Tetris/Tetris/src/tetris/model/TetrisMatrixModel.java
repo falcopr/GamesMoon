@@ -14,6 +14,7 @@ public class TetrisMatrixModel {
 	private Color m_BackgroundColor;
 	private TetrisBlockModel[][] m_TetrisBlockMatrix;
 	private Point m_Position;
+	private TetrominoModel m_CurrentTetromino;
 	
 	public TetrisMatrixModel() {
 		m_TetrisBlockMatrix = new TetrisBlockModel[m_Width][m_Height];
@@ -50,5 +51,13 @@ public class TetrisMatrixModel {
     public void setPosition(Point position)
     {
         this.m_Position = position;
+    }
+    
+    public TetrominoModel getCurrentTetromino() {
+        return m_CurrentTetromino;
+    }
+    
+    public void setCurrentTetromino(TetrominoModel tetromino) {
+        this.m_CurrentTetromino = tetromino;
     }
 }
