@@ -3,12 +3,14 @@ package tetris.model;
 import java.awt.Color;
 import java.awt.Point;
 
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
+
 // holds the data of the tetrominos placed on the playing field
 public class TetrisMatrixModel {
 	// Width and height should be calculated relatively to the blocksize
-	private int m_Width = 10;
-	private int m_Height = 23;
-	private int m_TetrisBlockLength = 25;
+	private int m_Width = TETRISBLOCK_WIDTH;
+	private int m_Height = TETRISBLOCK_HEIGHT;
+	private int m_TetrisBlockLength = TETRISBLOCK_LENGTH;
 	private Color m_BackgroundColor;
 	private TetrisBlockModel[][] m_TetrisBlockMatrix;
 	private Point m_Position;

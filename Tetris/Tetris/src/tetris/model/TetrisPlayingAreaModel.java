@@ -10,12 +10,12 @@ public class TetrisPlayingAreaModel
     private int m_Speed;
     
 
-    public TetrisPlayingAreaModel(TetrisMatrixModel tetrisMatrixModel) {
+    public TetrisPlayingAreaModel() {
         m_UserName = "Anonymous";
         m_Pause = true;
         m_Score = 0;
         m_Level = 1;
-        this.m_TetrisMatrixModel = tetrisMatrixModel;
+        this.m_TetrisMatrixModel = new TetrisMatrixModel();
     }
     
     public int getScore()
