@@ -10,15 +10,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <html>
 <head>
 <title>GamesMoon: Home</title>
-<style type="text/css">
-<!--
-div#all { background: #ffff00; }
-div#header { }
-div#games, div#frame { background: #0000ff; float: left; }
-div#frame { background: #ff0000; }
-div#scores {  }
-div#footer { clear: left; }
--->
+<link rel="stylesheet" type="text/css" href="./format.css">
 </style>
 </head>
 <body>
