@@ -1,6 +1,6 @@
 Authentifizierung eines Spiels:
 
-- Spiel muss eindeutigennamen besitzen der auch in der DB vorhanden ist
+- Spiel muss eindeutigen Namen besitzen der auch in der DB vorhanden ist
 - sesson_key  aus Cookie auslesen (cookie-name: gamesmoon)
 
 - HTTP-Anfrage an game_auth.php mit Session-Key (session_key) und Spielname (game_name)
