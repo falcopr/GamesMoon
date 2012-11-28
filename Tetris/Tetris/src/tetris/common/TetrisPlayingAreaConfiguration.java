@@ -1,12 +1,16 @@
 package tetris.common;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 
 public class TetrisPlayingAreaConfiguration
 {
     public final static String HEADERAREA_ORIENTATION = BorderLayout.PAGE_START;
     public final static String TETRISMATRIXAREA_ORIENTATION = BorderLayout.CENTER;
     public final static String INFOAREA_ORIENTATION = BorderLayout.LINE_END;
+    public final static String INFOGAMEAREA_ORIENTATION = BorderLayout.CENTER;
+    public final static int INFOGAMEAREALABEL_ORIENTATION = GridBagConstraints.LINE_START;
     
     public final static int MAXHEIGHT = 640;
     public final static int MAXWIDTH = 480;
@@ -15,7 +19,7 @@ public class TetrisPlayingAreaConfiguration
     public final static int TETRISBLOCK_HEIGHT = 25;
     public final static int TETRISBLOCK_LENGTH = 23;
     
-    public final static int HEADERAREA_WIDTH = MAXHEIGHT;
+    public final static int HEADERAREA_WIDTH = MAXWIDTH;
     public final static int HEADERAREA_HEIGHT = 100;
     
     public final static int TETRISMATRIXAREA_WIDTH = TETRISBLOCK_WIDTH * TETRISBLOCK_LENGTH;
@@ -29,4 +33,24 @@ public class TetrisPlayingAreaConfiguration
     public final static String LEVEL_LABELPREFIX = "Level: ";
     
     public final static String HEADER_TEXT = "TETRIS";
+    
+    public final static String HEADER_FONTNAME = "Serif";
+    public final static int HEADER_FONTSTYLE = Font.BOLD;
+    public final static int HEADER_FONTSIZE = 70;
+    
+    public final static String INFO_FONTNAME = "Serif";
+    public final static int INFO_FONTSTYLE = Font.PLAIN;
+    public final static int INFO_FONTSIZE = 30;
+    
+    public final static String HEADER_ORIENTATION = BorderLayout.CENTER;
+    public final static String INFO_ORIENTATION = BorderLayout.CENTER;
+    
+    public final static int TETRISBLOCKMODELCOMPOSITION_MAXLENGTH = 4;
+    
+    // Keyboard Configuration
+    public final static int SHIFTLEFT = 37; // Left Arrow
+    public final static int SHIFTRIGHT = 39; // Right Arrow
+    public final static int SOFTDROP = 40; // Down Arrow
+    public final static int ROTATELEFT = 65; // A
+    public final static int ROTATERIGHT = 68; // D
 }

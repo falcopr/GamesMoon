@@ -1,5 +1,8 @@
 package tetris.view;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -8,13 +11,18 @@ import tetris.view.interfaces.IPlayingAreaView;
 
 import tetris.presenter.container.PresenterContainer;
 
-public class PlayingAreaView extends JPanel implements IPlayingAreaView
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
+
+public class PlayingAreaView implements IPlayingAreaView
 {
     private static final long serialVersionUID = 70105825892525223L;
+    
+    private JPanel m_PlayingAreaPanel;
     
     private JPanel m_InfoArea;
     private JPanel m_TetrisMatrixArea;
     private JPanel m_HeaderArea;
+    private JPanel m_InfoGameInfoArea;
     
     private JLabel m_ScoreLabel;
     private JLabel m_UserNameLabel;
@@ -25,8 +33,23 @@ public class PlayingAreaView extends JPanel implements IPlayingAreaView
     private IPlayingAreaPresenter m_Presenter;
     
     public PlayingAreaView() {
+        m_PlayingAreaPanel = new JPanel();
+        
+        m_InfoArea = new JPanel();
+        m_TetrisMatrixArea = new JPanel();
+        m_HeaderArea = new JPanel();
+        m_InfoGameInfoArea = new JPanel();
+        
+        m_ScoreLabel = new JLabel();
+        m_UserNameLabel = new JLabel();
+        m_LevelLabel = new JLabel();
+        
+        m_HeaderText = new JLabel();
+        
         m_Presenter = PresenterContainer.getPresenterContainer().getComponent(IPlayingAreaPresenter.class);
         m_Presenter.setView(this);
+        
+        m_PlayingAreaPanel.addKeyListener(getKeyListener());
         
         try
         {
@@ -37,6 +60,47 @@ public class PlayingAreaView extends JPanel implements IPlayingAreaView
         }
     }
 
+    public KeyListener getKeyListener()
+    {
+        return new KeyListener() {
+
+            @Override
+            public void keyPressed(KeyEvent evt)
+            {
+                switch (evt.getKeyCode()) {
+                case SHIFTLEFT:
+                    m_Presenter.shiftTetrominoLeft();
+                    break;
+                case SHIFTRIGHT:
+                    m_Presenter.shiftTetrominoRight();
+                    break;
+                case SOFTDROP:
+                    m_Presenter.softDropTetromino();
+                    break;
+                case ROTATELEFT:
+                    m_Presenter.rotateLeftTetromino();
+                    break;
+                case ROTATERIGHT:
+                    m_Presenter.rotateRightTetromino();
+                    break;
+                default:
+                    evt.consume();
+                    return;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent evt)
+            {
+            }
+
+            @Override
+            public void keyTyped(KeyEvent evt)
+            {
+            }
+        };
+    }
+    
     public JPanel getInfoArea()
     {
         return m_InfoArea;
@@ -105,5 +169,25 @@ public class PlayingAreaView extends JPanel implements IPlayingAreaView
     public void setHeaderText(JLabel headerText)
     {
         this.m_HeaderText = headerText;
+    }
+
+    public JPanel getPlayingAreaPanel()
+    {
+        return m_PlayingAreaPanel;
+    }
+
+    public void setPlayingAreaPanel(JPanel playingAreaPanel)
+    {
+        this.m_PlayingAreaPanel = playingAreaPanel;
+    }
+
+    public JPanel getInfoGameInfoArea()
+    {
+        return m_InfoGameInfoArea;
+    }
+
+    public void setInfoGameInfoArea(JPanel infoGameInfoArea)
+    {
+        this.m_InfoGameInfoArea = infoGameInfoArea;
     }
 }

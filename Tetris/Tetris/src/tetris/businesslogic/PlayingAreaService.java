@@ -2,7 +2,12 @@ package tetris.businesslogic;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,31 +22,34 @@ public class PlayingAreaService implements IPlayingAreaService
 {
     // view is a JPanel at this moment --> should be constructed generic later
     public void ConfiguratePlayingAreaView(IPlayingAreaView view, TetrisPlayingAreaModel model) throws Exception {
-        if (!(view instanceof JPanel)) {
-            throw new Exception("The IPlayingAreaView object is not a JPanel");
-        }
-        
-        JPanel viewPanel = (JPanel) view;
+        JPanel playingAreaPanel = view.getPlayingAreaPanel();
         BorderLayout viewLayoutManager = new BorderLayout();
-        viewPanel.setLayout(viewLayoutManager);
+        playingAreaPanel.setLayout(viewLayoutManager);
         
-        JPanel headerArea = new JPanel();
-        JPanel tetrisMatrixArea = new JPanel();
-        JPanel infoArea = new JPanel();
+        JPanel headerArea = view.getHeaderArea();
+        JPanel tetrisMatrixArea = view.getTetrisMatrixArea();
+        JPanel infoArea = view.getInfoArea();
+        
+        BorderLayout infoAreaBorderLayout = new BorderLayout();
         
         headerArea.setLayout(null);
         tetrisMatrixArea.setLayout(null);
-        infoArea.setLayout(null);
+        infoArea.setLayout(infoAreaBorderLayout);
         
-        JLabel score = new JLabel();
-        JLabel userName = new JLabel();
-        JLabel level = new JLabel();
+        JLabel score = view.getScoreLabel();
+        JLabel userName = view.getUserNameLabel();
+        JLabel level = view.getLevelLabel();
+        
+        score.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
+        userName.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
+        level.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
         
         score.setText(SCORE_LABELPREFIX + model.getScore());
         userName.setText(USERNAME_LABELPREFIX + model.getUserName());
         level.setText(LEVEL_LABELPREFIX + model.getLevel());
         
-        JLabel headerText = new JLabel();
+        JLabel headerText = view.getHeaderText();
+        headerText.setFont(new Font(HEADER_FONTNAME, HEADER_FONTSTYLE, HEADER_FONTSIZE));
         headerText.setText(HEADER_TEXT);
         
         // sets the JPanels to View
@@ -57,19 +65,64 @@ public class PlayingAreaService implements IPlayingAreaService
         
         // test for colors to show panel proportions
         headerArea.setBackground(Color.GREEN);
-        tetrisMatrixArea.setBackground(Color.BLUE);
+        tetrisMatrixArea.setBackground(Color.GRAY);
         infoArea.setBackground(Color.YELLOW);
         
-        viewPanel.setPreferredSize(new Dimension(MAXWIDTH, MAXHEIGHT));
+        playingAreaPanel.setPreferredSize(new Dimension(MAXWIDTH, MAXHEIGHT));
         headerArea.setPreferredSize(new Dimension(HEADERAREA_WIDTH, HEADERAREA_HEIGHT));
         tetrisMatrixArea.setPreferredSize(new Dimension(TETRISMATRIXAREA_WIDTH, TETRISMATRIXAREA_HEIGHT));
         infoArea.setPreferredSize(new Dimension(INFOAREA_WIDTH, INFOAREA_HEIGHT));
         
         // adding the panels to the MainPanel
-        viewPanel.add(headerArea, HEADERAREA_ORIENTATION);
-        viewPanel.add(tetrisMatrixArea, TETRISMATRIXAREA_ORIENTATION);
-        viewPanel.add(infoArea, INFOAREA_ORIENTATION);
+        playingAreaPanel.add(headerArea, HEADERAREA_ORIENTATION);
+        playingAreaPanel.add(tetrisMatrixArea, TETRISMATRIXAREA_ORIENTATION);
+        playingAreaPanel.add(infoArea, INFOAREA_ORIENTATION);
         
-        viewPanel.setVisible(true);
+        // Position for Header Label in HeaderPanel
+        headerArea.add(headerText, HEADER_ORIENTATION);
+        Dimension headerAreaDimension = headerArea.getPreferredSize();
+        // Center the Label
+        Dimension headerTextDimension = headerText.getPreferredSize();
+        int headerTextPositionTop = ((headerAreaDimension.height - headerTextDimension.height) / 2);
+        int headerTextPositionLeft = ((headerAreaDimension.width - headerTextDimension.width) / 2);
+        headerText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        headerText.setBounds(headerTextPositionLeft, headerTextPositionTop, headerTextDimension.width, headerTextDimension.height);
+        
+        GridBagLayout infoGameInfoLayout = new GridBagLayout();
+        GridBagConstraints infoGameInfoConstraint = new GridBagConstraints();
+        
+        JPanel infoGameInfoArea = view.getInfoGameInfoArea();
+        infoGameInfoArea.setLayout(infoGameInfoLayout);
+        
+        infoGameInfoConstraint.fill = GridBagConstraints.VERTICAL;
+        infoGameInfoConstraint.weightx = 1.0f;
+        infoGameInfoConstraint.gridy = 0;
+        infoGameInfoConstraint.insets = new Insets(0, 8, 0, 8);
+        infoGameInfoConstraint.anchor = GridBagConstraints.LINE_START;
+        infoGameInfoLayout.setConstraints(userName, infoGameInfoConstraint);
+        infoGameInfoArea.add(userName);
+        
+        infoGameInfoConstraint.gridy = 1;
+        infoGameInfoConstraint.anchor = GridBagConstraints.LINE_START;
+        infoGameInfoLayout.setConstraints(score, infoGameInfoConstraint);
+        infoGameInfoArea.add(score);
+        
+        infoGameInfoConstraint.gridy = 2;
+        infoGameInfoConstraint.anchor = GridBagConstraints.LINE_START;
+        infoGameInfoLayout.setConstraints(level, infoGameInfoConstraint);
+        infoGameInfoArea.add(level);
+        
+        infoArea.add(infoGameInfoArea, INFO_ORIENTATION);
+        
+        Dimension scoreDimension = score.getPreferredSize();
+        Dimension userNameDimension = userName.getPreferredSize();
+        Dimension levelDimension = level.getPreferredSize();
+        
+        // Position for Info Labels in InfoPanel
+        score.setBounds(0, 0, scoreDimension.width, scoreDimension.height);
+        userName.setBounds(0, 0, userNameDimension.width, userNameDimension.height);
+        level.setBounds(0, 0, levelDimension.width, levelDimension.height);
+        
+        playingAreaPanel.setVisible(true);
     }
 }

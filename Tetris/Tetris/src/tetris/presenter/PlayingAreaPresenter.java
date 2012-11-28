@@ -30,4 +30,39 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     {
         m_Service.ConfiguratePlayingAreaView(m_View, m_Model);
     }
+
+    @Override
+    public void shiftTetrominoLeft()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void shiftTetrominoRight()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void softDropTetromino()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void rotateLeftTetromino()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void rotateRightTetromino()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

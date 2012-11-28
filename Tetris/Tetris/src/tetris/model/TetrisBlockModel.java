@@ -9,7 +9,6 @@ public class TetrisBlockModel {
 	private int m_Length;
 	private Rectangle m_Rectangle;
 	private Color m_Color;
-	private boolean m_Visible;
 
 	public TetrisBlockModel() {
 		m_Rectangle = new Rectangle();
@@ -40,13 +39,5 @@ public class TetrisBlockModel {
 
 	public void setColor(Color color) {
 		this.m_Color = color;
-	}
-
-	public boolean isVisible() {
-		return m_Visible;
-	}
-
-	public void setVisibility(boolean visibility) {
-		this.m_Visible = visibility;
 	}
 }

@@ -5,6 +5,9 @@ import javax.swing.JPanel;
 
 public interface IPlayingAreaView
 {
+    JPanel getPlayingAreaPanel();
+    
+    void setPlayingAreaPanel(JPanel playingAreaPanel);
 
     JPanel getInfoArea();
 
@@ -33,5 +36,8 @@ public interface IPlayingAreaView
     JLabel getHeaderText();
 
     void setHeaderText(JLabel headerText);
-
+    
+    JPanel getInfoGameInfoArea();
+    
+    void setInfoGameInfoArea(JPanel infoGameInfoArea);
 }
