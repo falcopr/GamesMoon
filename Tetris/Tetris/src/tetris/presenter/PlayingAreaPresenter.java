@@ -1,6 +1,7 @@
 package tetris.presenter;
 
 import java.awt.Color;
+import java.util.Date;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
@@ -41,13 +42,29 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     @Override
     public void shiftTetrominoLeft()
     {
-    	TetrisBlockModel someTestBlockModel = new TetrisBlockModel();
-    	someTestBlockModel.setColor(Color.RED);
-    	someTestBlockModel.setLength(25);
-    	someTestBlockModel.setPosition(25, 25);
-    	m_Model.getTetrisMatrixModel().getTetrisBlockMatrix()[2][3] = someTestBlockModel;
-    	m_View.getTetrisMatrixArea().repaint();
-        System.out.println("Shift Left");
+    	Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+		    	TetrisBlockModel someTestBlockModel = new TetrisBlockModel();
+		    	long lastClockTime = System.currentTimeMillis();
+		    	int i = 0;
+				
+		    	while(true) {
+		    		if (lastClockTime + 100 < System.currentTimeMillis()) {
+		        		someTestBlockModel.setColor(Color.RED);
+		        		someTestBlockModel.setLength(25);
+		        		someTestBlockModel.setPosition(25, 25 * i);
+		        		m_Model.getTetrisMatrixModel().getTetrisBlockMatrix()[2][3] = someTestBlockModel;
+		        		m_View.getTetrisMatrixArea().repaint();
+		        		lastClockTime = System.currentTimeMillis();
+		        		i++;
+		    		}
+		    	}
+			}
+		});
+        
+    	thread.start();
+    	//System.out.println("Shift Left");
     }
 
     @Override
