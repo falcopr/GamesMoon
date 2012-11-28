@@ -9,13 +9,17 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
 require_once 'secure/auth_sys.php';
 login();
 ?>
+<!DOCTYPE html>
 <html>
+<head>
+<title>GamesMoon: Login</title>
+</head>
 <body>
  <form action="login.php" method="POST">
-  Bitte Loggen sie sich ein:
-  <input type="Text" name="username">
-  <input type="Text" name="password">
-  <input type="Submit" value="Weiter">
+  <p>Bitte Loggen sie sich ein:<br/></p>
+  <p>Alias:<input type="Text" name="username"><br/></p>
+  <p>Passwort:<input type="Password" name="password"><br/></p>
+  <input type="Submit" value="Login">
  </form>
 </body>
 </html>

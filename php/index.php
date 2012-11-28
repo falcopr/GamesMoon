@@ -9,7 +9,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+<title>GamesMoon: Home</title>
 <style type="text/css">
 <!--
 div#all { background: #ffff00; }
