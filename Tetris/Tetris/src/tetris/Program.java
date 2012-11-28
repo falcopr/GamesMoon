@@ -3,7 +3,6 @@ package tetris;
 import java.applet.Applet;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.presenter.container.PresenterContainer;

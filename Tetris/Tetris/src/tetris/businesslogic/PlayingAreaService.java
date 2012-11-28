@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import tetris.businesslogic.interfaces.IPlayingAreaService;
+import tetris.controls.TetrisMatrixPanel;
 import tetris.model.TetrisPlayingAreaModel;
 import tetris.view.interfaces.IPlayingAreaView;
 
@@ -27,8 +28,11 @@ public class PlayingAreaService implements IPlayingAreaService
         playingAreaPanel.setLayout(viewLayoutManager);
         
         JPanel headerArea = view.getHeaderArea();
-        JPanel tetrisMatrixArea = view.getTetrisMatrixArea();
+        TetrisMatrixPanel tetrisMatrixArea = view.getTetrisMatrixArea();
+        tetrisMatrixArea.setTetrisMatrixModel(model.getTetrisMatrixModel());
         JPanel infoArea = view.getInfoArea();
+        
+        tetrisMatrixArea.setDoubleBuffered(true);
         
         BorderLayout infoAreaBorderLayout = new BorderLayout();
         
@@ -126,6 +130,7 @@ public class PlayingAreaService implements IPlayingAreaService
         // Panel must be focused, or else it wont react to keylisteners
         playingAreaPanel.setFocusable(true);
         playingAreaPanel.requestFocusInWindow();
+        playingAreaPanel.setDoubleBuffered(true);
         playingAreaPanel.setVisible(true);
     }
 }

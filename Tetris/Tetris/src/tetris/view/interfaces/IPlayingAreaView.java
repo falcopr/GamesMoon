@@ -3,6 +3,8 @@ package tetris.view.interfaces;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tetris.controls.TetrisMatrixPanel;
+
 public interface IPlayingAreaView
 {
     JPanel getPlayingAreaPanel();
@@ -13,9 +15,9 @@ public interface IPlayingAreaView
 
     void setInfoArea(JPanel infoArea);
 
-    JPanel getTetrisMatrixArea();
+    TetrisMatrixPanel getTetrisMatrixArea();
 
-    void setTetrisMatrixArea(JPanel tetrisMatrixArea);
+    void setTetrisMatrixArea(TetrisMatrixPanel tetrisMatrixArea);
 
     JPanel getHeaderArea();
 

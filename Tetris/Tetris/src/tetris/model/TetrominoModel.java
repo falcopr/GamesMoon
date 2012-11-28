@@ -2,8 +2,6 @@ package tetris.model;
 
 import java.awt.Point;
 
-import tetris.enums.TetrominoRotation;
-
 // defines the data of the geometric shape composed by tetrisblocks
 public class TetrominoModel {
 	private boolean m_Active = false;

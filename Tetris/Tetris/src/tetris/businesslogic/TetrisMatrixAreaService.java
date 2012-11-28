@@ -29,12 +29,10 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         tetrisMatrixAreaPanel.repaint();
     }
     
-    public void repaintAllTetrisBlocks(JPanel tetrisMatrixAreaPanel, TetrisMatrixModel tetrisMatrixModel) {
-        Graphics g = tetrisMatrixAreaPanel.getGraphics();
-        
+    public void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel) {
         TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
         for (int i = 0; i < tetrisBlockMatrix.length; i++) {
-            for (int j = 0; j < tetrisBlockMatrix[i].length; i++) {
+            for (int j = 0; j < tetrisBlockMatrix[i].length; j++) {
                 TetrisBlockModel tetrisBlockModel = tetrisBlockMatrix[i][j];
                 if (tetrisBlockModel != null) {
                     Rectangle tetrisBlockRectangle = tetrisBlockModel.getRectangle();

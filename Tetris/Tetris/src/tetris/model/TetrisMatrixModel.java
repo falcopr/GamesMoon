@@ -28,6 +28,16 @@ public class TetrisMatrixModel {
 		this.m_Height = heigth;
 		
 		m_TetrisBlockMatrix = new TetrisBlockModel[m_Width][m_Height];
+		
+		// initialize matrix empty
+		for (int i = 0; i < m_Width; i++) {
+			m_TetrisBlockMatrix[i] = new TetrisBlockModel[] {};
+			
+			for (int j = 0; j < m_Height; j++) {
+				m_TetrisBlockMatrix[i][j] = null;
+			}
+		}
+		
 		m_BackgroundColor = backgroundColor;
 	}
 
