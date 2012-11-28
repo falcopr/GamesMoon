@@ -3,12 +3,12 @@ require_once 'sql.php';
 require_once 'paths.php';
 
 function getGameList() {
-    $html="<ul>";
+    $html="<ul>\n";
     $games = getAllGames();
     foreach ($games as &$game) {
 	$html=$html.'<li><a href="'.$LOCATION.$HOME.'?id='.$game["id"].'">'.$game["display_name"].'</a></li>';
     }
-    $html=$html."</ul>";
+    $html=$html."\n</ul>";
     echo $html;
 }
 
@@ -24,11 +24,31 @@ function getGameTabs($id) {
 
 function formatAllScores($id) {
     $scores = getAllScores($id);
-    $html="<table><tr><th>Player</th><th>Date</th><th>Score</th></tr>";
+    $html="<table>\n\t\t\t<tr><th>Player</th><th>Date</th><th>Score</th></tr>\n";
     foreach ($scores as &$score) {
-	$html=$html."<tr><th>".$score["alias"]."</th><th>".$score["created"]."</th><th>".$score["points"]."</th></tr>";
+	$html=$html."\t\t\t<tr><th>".$score["alias"]."</th><th>".$score["created"]."</th><th>\n".$score["points"]."</th></tr>";
     }
-    $html=$html."</table>";
+    $html=$html."\t\t</table>\n";
+    echo $html;
+}
+
+function formatOwnScores($id, $session_id) {
+    $scores = getOwnScores($id, getUser($session_id));
+    $html="<table>\n\t\t\t<tr><th>Date</th><th>Score</th></tr>\n";
+    foreach ($scores as &$score) {
+	$html=$html."\t\t\t<tr><th>".$score["created"]."</th><th>".$score["points"]."</th></tr>\n";
+    }
+    $html=$html."\t\t</table>\n";
+    echo $html;
+}
+
+function formatHightScores($id) {
+    $scores = getAllHighScores($id);
+    $html="<table>\n\t\t\t<tr><th>Player</th><th>Date</th><th>Score</th></tr>\n";
+    foreach ($scores as &$score) {
+	$html=$html."<tr>\t\t\t<th>".$score["alias"]."</th><th>".$score["created"]."</th><th>\n".$score["points"]."</th></tr>";
+    }
+    $html=$html."\t\t</table>\n";
     echo $html;
 }
 
