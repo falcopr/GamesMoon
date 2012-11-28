@@ -1,0 +1,6 @@
+div#all { background: #ffff00; }
+div#header { }
+div#games, div#frame { background: #0000ff; float: left; }
+div#frame { background: #ff0000; }
+div#scores {  }
+div#footer { clear: left; }
