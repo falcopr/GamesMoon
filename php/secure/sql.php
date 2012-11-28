@@ -69,6 +69,34 @@ function checkSession($session_key) {
     return $return;
 }
 
+function getUser($session_key) {
+    $return = -1;
+
+    $dbh = getdbh();
+    $stmt = $dbh->prepare("Select user_id FROM sessions where session_key=:session_key and logout IS NULL;");
+    $stmt->bindParam(':session_key', $session_key);
+    if($stmt->execute() && $stmt->rowCount() == 1) {
+        $row = $stmt->fetch();
+        $return =  $row['user_id'];
+    }
+    $stmt->closeCursor();
+    return $return;
+}
+
+function getUserName($session_key) {
+    $return = -1;
+
+    $dbh = getdbh();
+    $stmt = $dbh->prepare("Select users.alias FROM sessions inner join users on users.id = sessions.user_id where session_key=:session_key and logout IS NULL;");
+    $stmt->bindParam(':session_key', $session_key);
+    if($stmt->execute() && $stmt->rowCount() == 1) {
+        $row = $stmt->fetch();
+        $return =  $row['alias'];
+    }
+    $stmt->closeCursor();
+    return $return;
+}
+
 function closeSession($session_key) {
     $timestamp = date_timestamp_get(date_create());
 
@@ -160,7 +188,7 @@ function getAllScores($game_id) {
     $return = -1;
     
     $dbh = getdbh();
-    $stmt = $dbh->prepare("Select scores.id, users.alias, created, points from scores inner join users on scores.user_id = users.id where scores.game_id=:game_id;");
+    $stmt = $dbh->prepare("Select scores.id, users.alias, DATE_FORMAT(created, '%H:%i %d.%m.%y') as created, points from scores inner join users on scores.user_id = users.id where scores.game_id=:game_id order by points DESC;");
     $stmt->bindParam(':game_id', $game_id);
     if($stmt->execute()) {
         $return = $stmt->fetchAll();
@@ -173,7 +201,7 @@ function getOwnScores($game_id, $user_id) {
     $return = -1;
     
     $dbh = getdbh();
-    $stmt = $dbh->prepare("Select id, created, points from scores where scores.game_id=:game_id and user_id=:user_id;");
+    $stmt = $dbh->prepare("Select id, DATE_FORMAT(created, '%H:%i %d.%m.%y') as created, points from scores where scores.game_id=:game_id and user_id=:user_id order by points DESC;");
     $stmt->bindParam(':game_id', $game_id);
     $stmt->bindParam(':user_id', $user_id);
     if($stmt->execute()) {
@@ -183,7 +211,15 @@ function getOwnScores($game_id, $user_id) {
 }
 
 function getAllHighScores($game_id) {
-    //TODO
+    $return = -1;
+
+    $dbh = getdbh();
+    $stmt = $dbh->prepare("Select scores.id, user_id, users.alias, DATE_FORMAT(created, '%H:%i %d.%m.%y') as created, max(points) as points from scores inner join users on scores.user_id = users.id where scores.game_id=:game_id group by user_id order by points DESC;");
+    $stmt->bindParam(':game_id', $game_id);
+    if($stmt->execute()) {
+        $return =  $stmt->fetchAll();
+    }
+    return $return;
 }
 
 
