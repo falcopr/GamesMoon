@@ -32,7 +32,7 @@ public class Program extends Applet
         // Frame for testpurposes
         JFrame f = new JFrame("Test");
         f.add("Center", startingView.getPlayingAreaPanel());
-        f.setSize(640, 480);
+        f.setSize(800, 600);
         
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();

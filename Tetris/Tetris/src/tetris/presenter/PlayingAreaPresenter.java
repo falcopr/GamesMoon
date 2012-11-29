@@ -6,6 +6,7 @@ import java.util.Date;
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
+import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisPlayingAreaModel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
@@ -17,6 +18,9 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     private IPlayingAreaService m_PlayingAreaService;
     private ITetrisMatrixAreaService m_TetrisMatrixAreaService;
     private TetrisPlayingAreaModel m_Model;
+    
+    // TestBlock
+    private TetrisBlockModel m_TetrisBlockModel;
     
     public PlayingAreaPresenter() {
         m_PlayingAreaService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(IPlayingAreaService.class);
@@ -37,33 +41,44 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     public void initializePlayingArea() throws Exception
     {
         m_PlayingAreaService.ConfiguratePlayingAreaView(m_View, m_Model);
+        
+        // testblock
+        m_TetrisBlockModel = new TetrisBlockModel();
+        m_TetrisBlockModel.setColor(Color.RED);
+        m_TetrisBlockModel.setLength(25);
+        m_TetrisBlockModel.setPosition(2, 3);
+        m_Model.getTetrisMatrixModel().addTetrisBlockToMatrix(m_TetrisBlockModel);
+        m_View.getTetrisMatrixArea().repaint();
     }
 
     @Override
     public void shiftTetrominoLeft()
     {
-    	Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-		    	TetrisBlockModel someTestBlockModel = new TetrisBlockModel();
-		    	long lastClockTime = System.currentTimeMillis();
-		    	int i = 0;
-				
-		    	while(true) {
-		    		if (lastClockTime + 100 < System.currentTimeMillis()) {
-		        		someTestBlockModel.setColor(Color.RED);
-		        		someTestBlockModel.setLength(25);
-		        		someTestBlockModel.setPosition(25, 25 * i);
-		        		m_Model.getTetrisMatrixModel().getTetrisBlockMatrix()[2][3] = someTestBlockModel;
-		        		m_View.getTetrisMatrixArea().repaint();
-		        		lastClockTime = System.currentTimeMillis();
-		        		i++;
-		    		}
-		    	}
-			}
-		});
+        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.WEST);
+        m_View.getTetrisMatrixArea().repaint();
         
-    	thread.start();
+//    	Thread thread = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//		    	TetrisBlockModel someTestBlockModel = new TetrisBlockModel();
+//		    	long lastClockTime = System.currentTimeMillis();
+//		    	int i = 0;
+//				
+//		    	while(true) {
+//		    		if (lastClockTime + 100 < System.currentTimeMillis()) {
+//		        		someTestBlockModel.setColor(Color.RED);
+//		        		someTestBlockModel.setLength(25);
+//		        		someTestBlockModel.setPosition(25, 25 * i);
+//		        		m_Model.getTetrisMatrixModel().getTetrisBlockMatrix()[2][3] = someTestBlockModel;
+//		        		m_View.getTetrisMatrixArea().repaint();
+//		        		lastClockTime = System.currentTimeMillis();
+//		        		i++;
+//		    		}
+//		    	}
+//			}
+//		});
+//        
+//    	thread.start();
     	//System.out.println("Shift Left");
     }
 
@@ -71,14 +86,16 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     public void shiftTetrominoRight()
     {
         // TODO Auto-generated method stub
-        
+        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.EAST);
+        m_View.getTetrisMatrixArea().repaint();
     }
 
     @Override
     public void softDropTetromino()
     {
         // TODO Auto-generated method stub
-        
+        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
+        m_View.getTetrisMatrixArea().repaint();
     }
 
     @Override

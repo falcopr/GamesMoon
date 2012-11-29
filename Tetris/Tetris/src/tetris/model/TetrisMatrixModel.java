@@ -2,6 +2,7 @@ package tetris.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
@@ -17,7 +18,7 @@ public class TetrisMatrixModel {
 	private TetrominoModel m_CurrentTetromino;
 	
 	public TetrisMatrixModel() {
-		m_TetrisBlockMatrix = new TetrisBlockModel[m_Width][m_Height];
+		m_TetrisBlockMatrix = new TetrisBlockModel[m_Height][m_Width];
 		m_BackgroundColor = Color.GRAY;
 		m_Position = new Point(0,0);
 	}
@@ -27,7 +28,7 @@ public class TetrisMatrixModel {
 		this.m_Width = width;
 		this.m_Height = heigth;
 		
-		m_TetrisBlockMatrix = new TetrisBlockModel[m_Width][m_Height];
+		m_TetrisBlockMatrix = new TetrisBlockModel[m_Height][m_Width];
 		
 		// initialize matrix empty
 		for (int i = 0; i < m_Width; i++) {
@@ -45,6 +46,16 @@ public class TetrisMatrixModel {
 		return m_TetrisBlockMatrix;
 	}
 
+	public void addTetrisBlockToMatrix(TetrisBlockModel tetrisBlockModel) {
+	    Rectangle rectangle = tetrisBlockModel.getRectangle();
+	    
+	    // TetrisBlockModel contains Positioning in Matrix instead of absolute Position
+	    int i = rectangle.y;
+	    int j = rectangle.x;
+	    
+	    m_TetrisBlockMatrix[i][j] = tetrisBlockModel;
+	}
+	
 	public Color getBackgroundColor() {
 		return m_BackgroundColor;
 	}

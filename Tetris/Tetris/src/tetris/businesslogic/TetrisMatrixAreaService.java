@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
+import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisMatrixModel;
 import tetris.model.TetrominoModel;
@@ -37,10 +38,44 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                 if (tetrisBlockModel != null) {
                     Rectangle tetrisBlockRectangle = tetrisBlockModel.getRectangle();
                     g.setColor(tetrisBlockModel.getColor());
-                    g.fillRect(tetrisBlockRectangle.x, tetrisBlockRectangle.y, tetrisBlockRectangle.width, tetrisBlockRectangle.height);
+                    g.fillRect(tetrisBlockRectangle.width * j, tetrisBlockRectangle.height * i, tetrisBlockRectangle.width, tetrisBlockRectangle.height);
                     //g.drawRect(x, y, width, height) --> drawing outline
                 }
             }
         }
+    }
+    
+    public void moveTetrisBlock(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel tetrisBlockModel, TetrisBlockMovementDirection movementDirection) {
+        Rectangle currentTetrisBlockRectangle = tetrisBlockModel.getRectangle();
+        int currentI = currentTetrisBlockRectangle.y;
+        int currentJ = currentTetrisBlockRectangle.x;
+        
+        tetrisMatrixModel.getTetrisBlockMatrix()[currentI][currentJ] = null;
+        int i = 0; 
+        int j = 0;
+                
+        switch (movementDirection) {
+        case NORTH:
+            i = currentI - 1;
+            j = currentJ;
+            break;
+        case SOUTH:
+            i = currentI + 1;
+            j = currentJ;
+            break;
+        case WEST:
+            i = currentI;
+            j = currentJ - 1;
+            break;
+        case EAST:
+            i = currentI;
+            j = currentJ + 1;
+            break;
+        default:
+            return;
+        }
+        
+        tetrisMatrixModel.getTetrisBlockMatrix()[i][j] = tetrisBlockModel;
+        tetrisBlockModel.setPosition(i, j);
     }
 }

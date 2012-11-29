@@ -69,7 +69,6 @@ public class PlayingAreaView implements IPlayingAreaView
                 switch (evt.getKeyCode()) {
                 case SHIFTLEFT:
                     m_Presenter.shiftTetrominoLeft();
-                    m_TetrisMatrixArea.repaint();
                     break;
                 case SHIFTRIGHT:
                     m_Presenter.shiftTetrominoRight();
