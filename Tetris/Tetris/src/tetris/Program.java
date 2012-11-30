@@ -30,14 +30,17 @@ public class Program extends Applet
         IPlayingAreaView startingView = ViewContainer.getViewContainer().getComponent(IPlayingAreaView.class);
         
         // Frame for testpurposes
-        JFrame f = new JFrame("Test");
-        f.add("Center", startingView.getPlayingAreaPanel());
-        f.setSize(800, 600);
-        
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.pack();
-        f.setResizable(false);
-        f.setVisible(true);
+        this.add(startingView.getPlayingAreaPanel());
+        this.setSize(800, 600);
+        this.setVisible(true);
+//        JFrame f = new JFrame("Test");
+//        f.add("Center", );
+//        f.setSize(800, 600);
+//        
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.pack();
+//        f.setResizable(false);
+//        f.setVisible(true);
         
 	}
 	
