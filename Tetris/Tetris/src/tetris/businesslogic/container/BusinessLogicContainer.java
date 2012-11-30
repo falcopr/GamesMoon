@@ -3,7 +3,9 @@ package tetris.businesslogic.container;
 import org.picocontainer.DefaultPicoContainer;
 
 import tetris.businesslogic.PlayingAreaService;
+import tetris.businesslogic.TetrisMatrixAreaService;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
+import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
 
 public class BusinessLogicContainer extends DefaultPicoContainer
 {
@@ -21,5 +23,6 @@ public class BusinessLogicContainer extends DefaultPicoContainer
     
     public static void initializeToProductiveContainer() {
         m_BusinessLogicContainer.addComponent(IPlayingAreaService.class, PlayingAreaService.class);
+        m_BusinessLogicContainer.addComponent(ITetrisMatrixAreaService.class, TetrisMatrixAreaService.class);
     }
 }

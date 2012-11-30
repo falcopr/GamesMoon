@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tetris.controls.TetrisMatrixPanel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
 
@@ -20,7 +21,7 @@ public class PlayingAreaView implements IPlayingAreaView
     private JPanel m_PlayingAreaPanel;
     
     private JPanel m_InfoArea;
-    private JPanel m_TetrisMatrixArea;
+    private TetrisMatrixPanel m_TetrisMatrixArea;
     private JPanel m_HeaderArea;
     private JPanel m_InfoGameInfoArea;
     
@@ -36,7 +37,7 @@ public class PlayingAreaView implements IPlayingAreaView
         m_PlayingAreaPanel = new JPanel();
         
         m_InfoArea = new JPanel();
-        m_TetrisMatrixArea = new JPanel();
+        m_TetrisMatrixArea = new TetrisMatrixPanel();
         m_HeaderArea = new JPanel();
         m_InfoGameInfoArea = new JPanel();
         
@@ -49,24 +50,22 @@ public class PlayingAreaView implements IPlayingAreaView
         m_Presenter = PresenterContainer.getPresenterContainer().getComponent(IPlayingAreaPresenter.class);
         m_Presenter.setView(this);
         
-        m_PlayingAreaPanel.addKeyListener(getKeyListener());
-        
-        try
-        {
+        try {
             m_Presenter.initializePlayingArea();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        m_PlayingAreaPanel.addKeyListener(getKeyListener());
     }
 
     public KeyListener getKeyListener()
     {
         return new KeyListener() {
-
             @Override
             public void keyPressed(KeyEvent evt)
             {
+                System.out.println(evt.getKeyCode());
                 switch (evt.getKeyCode()) {
                 case SHIFTLEFT:
                     m_Presenter.shiftTetrominoLeft();
@@ -111,12 +110,12 @@ public class PlayingAreaView implements IPlayingAreaView
         this.m_InfoArea = infoArea;
     }
 
-    public JPanel getTetrisMatrixArea()
+    public TetrisMatrixPanel getTetrisMatrixArea()
     {
         return m_TetrisMatrixArea;
     }
 
-    public void setTetrisMatrixArea(JPanel tetrisMatrixArea)
+    public void setTetrisMatrixArea(TetrisMatrixPanel tetrisMatrixArea)
     {
         this.m_TetrisMatrixArea = tetrisMatrixArea;
     }

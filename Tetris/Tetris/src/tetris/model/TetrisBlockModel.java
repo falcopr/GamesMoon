@@ -24,9 +24,9 @@ public class TetrisBlockModel {
 		m_Rectangle.width = length;
 	}
 
-	public void setPosition(int x, int y) {
-		m_Rectangle.x = x;
-		m_Rectangle.y = y;
+	public void setPosition(int i, int j) {
+		m_Rectangle.x = j;
+		m_Rectangle.y = i;
 	}
 	
 	public Rectangle getRectangle() {
