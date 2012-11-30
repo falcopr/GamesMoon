@@ -10,7 +10,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <html>
 <head>
 <title>GamesMoon: Home</title>
-<link rel="stylesheet" type="text/css" href="./format.css">
+<link rel="stylesheet" type="text/css" href="./css/format.css">
 </style>
 </head>
 <body>
@@ -56,17 +56,20 @@ if(isset($_GET["id"])) {
 	    ?>
 </div>
 	    <?php
+	} else {
+	    ?>
+<div id="game">
+	    <?php
+	    formatGameTab($game_id);
+	    ?>
+</div>
+	    <?php
+	    
 	}
     }
 }
 ?>
 </div>
 </div>
-<!--<APPLET ARCHIVE="applets/tetris.jar" CODE="tetris.Program.class" WIDTH=400 HEIGHT=200>
-</APPLET>-->
-<object type="application/x-java-applet" width=500 height=500>
-  <param name="archive" value="applets/tetris.jar" >
-  <param name="classid" value="java:tetris.Program.class" >
-</object>
 </body>
 </html>

@@ -168,6 +168,19 @@ function getAllGames() {
     return $return;
 }
 
+function getGame($id) {
+    $return = -1;
+
+    $dbh = getdbh();
+    $stmt = $dbh->prepare("Select id_name, display_name, path, width, height, startfile from games where id=:id;");
+    $stmt->bindParam(':id', $id);
+    if($stmt->execute()) {
+        $return = $stmt->fetch();
+    }
+    $stmt->closeCursor();
+    return $return;
+}
+
 function insertScore($game_id, $user_id, $score) {
     $return = FALSE;
     

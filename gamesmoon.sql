@@ -20,7 +20,10 @@ CREATE TABLE games (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 id_name char(50) UNIQUE,
 display_name varchar(50),
-path varchar(50)
+path varchar(50),
+width int,
+height int,
+startfile varchar(150)
 );
 
 CREATE TABLE game_sessions (

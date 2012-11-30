@@ -22,6 +22,15 @@ function getGameTabs($id) {
     echo $html;
 }
 
+function formatGameTab($id) {
+    $game=getGame($id);
+    $html='<object type="application/x-java-applet" width='.$game[width].' height='.$game[height].'>
+    <param name="archive" value="'.$game[path].'" >
+    <param name="classid" value="java:'.$game[startfile].'" >
+    </object>';
+    echo $html;
+}
+
 function formatAllScores($id) {
     $scores = getAllScores($id);
     $html="<table>\n\t\t\t<tr><th>Player</th><th>Date</th><th>Score</th></tr>\n";
