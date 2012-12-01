@@ -48,37 +48,36 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     {
         m_PlayingAreaService.configuratePlayingAreaView(m_View, m_Model);
         
-        // testblock
-        m_TetrisBlockModel = new TetrisBlockModel();
-        m_TetrisBlockModel.setColor(Color.RED);
-        m_TetrisBlockModel.setLength(TETRISBLOCK_LENGTH);
-        m_TetrisBlockModel.setPosition(2, 3);
-        m_Model.getTetrisMatrixModel().addTetrisBlockToMatrix(m_TetrisBlockModel);
-        m_View.getTetrisMatrixArea().repaint();
+        // testblock test
+        // m_TetrisBlockModel = new TetrisBlockModel();
+        // m_TetrisBlockModel.setColor(Color.RED);
+        // m_TetrisBlockModel.setLength(TETRISBLOCK_LENGTH);
+        // m_TetrisBlockModel.setPosition(2, 3);
+        // m_Model.getTetrisMatrixModel().addTetrisBlockToMatrix(m_TetrisBlockModel);
+        // m_View.getTetrisMatrixArea().repaint();
     }
     
     public void updatePlayingArea() {
-    	m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
-        m_View.getTetrisMatrixArea().repaint();
-        System.out.println(m_View.getHeaderArea().getPreferredSize());
-        System.out.println(m_View.getTetrisMatrixArea().getPreferredSize());
+    	//m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
+    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.SOUTH);
+    	m_View.getTetrisMatrixArea().repaint();
     }
     
     public void shiftTetrominoLeft()
     {
-        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.WEST);
+    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.WEST);
         m_View.getTetrisMatrixArea().repaint();
     }
 
     public void shiftTetrominoRight()
     {
-        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.EAST);
+    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.EAST);
         m_View.getTetrisMatrixArea().repaint();
     }
 
     public void softDropTetromino()
     {
-        m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
+    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.SOUTH);
         m_View.getTetrisMatrixArea().repaint();
     }
 
@@ -91,6 +90,8 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+        m_View.getTetrisMatrixArea().repaint();
     }
 
     public void rotateRightTetromino()

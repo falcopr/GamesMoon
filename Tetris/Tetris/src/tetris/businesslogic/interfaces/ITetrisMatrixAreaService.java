@@ -16,4 +16,6 @@ public interface ITetrisMatrixAreaService
     void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel);
     
     void moveTetrisBlock(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel tetrisBlockModel, TetrisBlockMovementDirection movementDirection);
+    
+    void moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection);
 }
