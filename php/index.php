@@ -10,10 +10,10 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <html>
 <head>
 <title>GamesMoon: Home</title>
-<link rel="stylesheet" type="text/css" href="./css/format.css">
+<link rel="stylesheet" type="text/css" media="screen" href="./css/format.css">
 </style>
 </head>
-<body>
+<body onLoad="siteLoaded();">
 <div id="all">
 <div id="header">
 <?php
@@ -72,4 +72,13 @@ if(isset($_GET["id"])) {
 </div>
 </div>
 </body>
+<script type="text/javascript">
+  function siteLoaded()
+  {
+    setTimeout("document.applet_game.requestFocus()", 500);
+    setTimeout("document.applet_game.requestFocus()", 1000);
+    setTimeout("document.applet_game.requestFocus()", 1500);
+  }
+  siteLoaded();
+</script>
 </html>

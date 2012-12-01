@@ -1,6 +1,58 @@
+/* globale CSS-Datei
+
+/* Hintergrund im body-Tag
+===============================================================*/
+body
+{
+
+  background-image: url(pic/tetris_bg.jpg);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-attachment:fixed
+/*
+  background-image: url(pic/joy.jpg);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-attachment:fixed
+*/
+}
+
+
+
+/* Schrift
+===============================================================*/
+h1,h2,h3,h4,p,ul,ol,li,div,td,th,address,blockquote,nobr,b,i 
+{
+  font-family:Arial,sans-serif;
+  color: #FFFFFF
+}
+
+h1 {font-size:28px; margin-bottom:18px}
+h1 span#r  {font-size:28px; margin-bottom:18px; color: #FF0000}
+h1 span#g  {font-size:28px; margin-bottom:18px; color: #00FF00}
+h1 span#b  {font-size:28px; margin-bottom:18px; color: #0000FF}
+h1 span#y  {font-size:28px; margin-bottom:18px; color: #FFFF00}
+h1 span#t  {font-size:28px; margin-bottom:18px; color: #00FFFF}
+h1 span#pi {font-size:28px; margin-bottom:18px; color: #FF00FF}
+h1 span#o  {font-size:28px; margin-bottom:18px; color: #FFCC00}
+h1 span#pu {font-size:28px; margin-bottom:18px; color: #9900CC}
+
+h2 {font-size:21px; margin-bottom:18px; }
+
+p span{color: #FFFF00}
+/*p span{color: #FF0000}
+*/
+
+/* Formulare
+===============================================================*/
+form { padding:20px}
+
+/* Bloecke
+===============================================================*/
 div#all { background: #ffff00; }
 div#header { }
 div#games, div#frame { background: #0000ff; float: left; }
 div#frame { background: #ff0000; }
 div#scores {  }
 div#footer { clear: left; }
+

@@ -4,6 +4,7 @@ require_once 'paths.php';
 
 
 function login() {
+    global $HOME;
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($_POST['password'])) {
         session_start();
 
@@ -19,7 +20,6 @@ function login() {
                 setCookie('gamesmoon', $session_key);
                 header('Location: '.$HOME);
                 exit;
-                //echo("LOGIN");
             }
         }
     }

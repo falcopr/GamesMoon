@@ -44,6 +44,11 @@ function createSession($user_id) {
     $session_key = getHash($timestamp);
 
     $dbh = getdbh();
+    $stmt = $dbh->prepare("UPDATE sessions SET logout=now() where user_id=:user_id and logout IS NULL;");
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $stmt->closeCursor();
+    
     $stmt = $dbh->prepare("INSERT INTO sessions (user_id, session_key, login) VALUES (:user_id, :session_key, FROM_UNIXTIME(:login));");
     $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':session_key', $session_key);
@@ -142,7 +147,7 @@ function checkGameSession($session_key) {
     $return = -1;
 
     $dbh = getdbh();
-    $stmt = $dbh->prepare("Select game_sessions.id, game_id, user_id FROM game_sessions inner join sessions on sessions.id=game_sessions.session_id where game_sessions.session_key=:session_key;");
+    $stmt = $dbh->prepare("Select game_sessions.id, game_id, user_id FROM game_sessions inner join sessions on sessions.id=game_sessions.session_id where game_sessions.session_key=:session_key and sessions.logout IS NULL;");
     $stmt->bindParam(':session_key', $session_key);
     if($stmt->execute() && $stmt->rowCount() == 1) {
         $row = $stmt->fetch();

@@ -4,7 +4,6 @@ import java.applet.Applet;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,9 +20,9 @@ public class ServerConnector {
 	String path;
 	String game_session;
 	
-	public ServerConnector(Applet applet, String path) {
+	public ServerConnector(Applet applet) {
 		this.applet = applet;
-		this.path = path;
+		this.path = applet.getParameter("path");
 		try {
 			game_session = getGameSession();
 		} catch (Exception e) {
