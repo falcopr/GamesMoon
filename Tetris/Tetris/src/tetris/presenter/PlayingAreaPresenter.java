@@ -1,11 +1,11 @@
 package tetris.presenter;
 
 import java.awt.Color;
-import java.util.Date;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
+import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisPlayingAreaModel;
@@ -19,14 +19,18 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     private IPlayingAreaView m_View;
     private IPlayingAreaService m_PlayingAreaService;
     private ITetrisMatrixAreaService m_TetrisMatrixAreaService;
+    private ITetrominoService m_TetrominoService;
     private TetrisPlayingAreaModel m_Model;
     
     // TestBlock
     private TetrisBlockModel m_TetrisBlockModel;
     
     public PlayingAreaPresenter() {
-        m_PlayingAreaService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(IPlayingAreaService.class);
-        m_TetrisMatrixAreaService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ITetrisMatrixAreaService.class);
+    	BusinessLogicContainer businessLogicContainer = BusinessLogicContainer.getBusinessLogicContainer();
+    	
+        m_PlayingAreaService = businessLogicContainer.getComponent(IPlayingAreaService.class);
+        m_TetrisMatrixAreaService = businessLogicContainer.getComponent(ITetrisMatrixAreaService.class);
+        m_TetrominoService = businessLogicContainer.getComponent(ITetrominoService.class);
         
         m_Model = new TetrisPlayingAreaModel();
     }
@@ -60,64 +64,37 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
         System.out.println(m_View.getTetrisMatrixArea().getPreferredSize());
     }
     
-    @Override
     public void shiftTetrominoLeft()
     {
         m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.WEST);
         m_View.getTetrisMatrixArea().repaint();
-        
-//    	Thread thread = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//		    	TetrisBlockModel someTestBlockModel = new TetrisBlockModel();
-//		    	long lastClockTime = System.currentTimeMillis();
-//		    	int i = 0;
-//				
-//		    	while(true) {
-//		    		if (lastClockTime + 100 < System.currentTimeMillis()) {
-//		        		someTestBlockModel.setColor(Color.RED);
-//		        		someTestBlockModel.setLength(25);
-//		        		someTestBlockModel.setPosition(25, 25 * i);
-//		        		m_Model.getTetrisMatrixModel().getTetrisBlockMatrix()[2][3] = someTestBlockModel;
-//		        		m_View.getTetrisMatrixArea().repaint();
-//		        		lastClockTime = System.currentTimeMillis();
-//		        		i++;
-//		    		}
-//		    	}
-//			}
-//		});
-//        
-//    	thread.start();
-    	//System.out.println("Shift Left");
     }
 
-    @Override
     public void shiftTetrominoRight()
     {
-        // TODO Auto-generated method stub
         m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.EAST);
         m_View.getTetrisMatrixArea().repaint();
     }
 
-    @Override
     public void softDropTetromino()
     {
-        // TODO Auto-generated method stub
         m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
         m_View.getTetrisMatrixArea().repaint();
     }
 
-    @Override
     public void rotateLeftTetromino()
     {
-        // TODO Auto-generated method stub
-        
+        // Test adding Tetrisblock
+    	try {
+			m_TetrisMatrixAreaService.addTetromino(m_TetrominoService.getNext(), m_Model.getTetrisMatrixModel());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
-    @Override
     public void rotateRightTetromino()
     {
-        // TODO Auto-generated method stub
         
     }
 }

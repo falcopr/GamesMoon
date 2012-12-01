@@ -3,6 +3,8 @@ package tetris.model;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
+
 // holds data --> essential part of which the tetromino consists of
 public class TetrisBlockModel {
 	// rectangle should be a square
@@ -12,6 +14,7 @@ public class TetrisBlockModel {
 
 	public TetrisBlockModel() {
 		m_Rectangle = new Rectangle();
+		this.setLength(TETRISBLOCK_LENGTH); 
 	}
 	
 	public int getLength() {

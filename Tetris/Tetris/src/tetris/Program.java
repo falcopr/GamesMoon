@@ -23,7 +23,6 @@ public class Program extends Applet {
 		super.init();
 		connector = new ServerConnector(this, getParameter("path"));
 		
-		
 		ViewContainer.initializeToProductiveContainer();
 		PresenterContainer.initializeToProductiveContainer();
 		BusinessLogicContainer.initializeToProductiveContainer();

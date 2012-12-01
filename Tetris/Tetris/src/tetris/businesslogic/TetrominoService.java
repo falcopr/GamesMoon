@@ -2,13 +2,17 @@ package tetris.businesslogic;
 
 import java.awt.Color;
 
+import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrominoModel;
 
 import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
-public class TetrominoService
+public class TetrominoService implements ITetrominoService
 {
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#getNext()
+	 */
     public TetrominoModel getNext() throws Exception {
         char letter = 'o';
         
@@ -39,6 +43,9 @@ public class TetrominoService
         return getLetterShapedTetromino(letter);
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#getLetterShapedTetromino(char)
+	 */
     public TetrominoModel getLetterShapedTetromino(char letter) throws Exception {
         TetrisBlockModel[][] tetrisBlockModelComposition = getTetrisBlockModelCompositionAccordingToLetterShapedTetromino(letter);
         
@@ -55,6 +62,9 @@ public class TetrominoService
         return tetrominoModel;
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#getColorAccordingToLetterShapedTetromino(char)
+	 */
     public Color getColorAccordingToLetterShapedTetromino(char letter) {
         switch (letter) {
         case 'i':
@@ -76,6 +86,9 @@ public class TetrominoService
         }
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#getTetrisBlockModelCompositionAccordingToLetterShapedTetromino(char)
+	 */
     public TetrisBlockModel[][] getTetrisBlockModelCompositionAccordingToLetterShapedTetromino(char letter) {
         TetrisBlockModel[][] resultComposition = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH][TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
         
@@ -129,6 +142,9 @@ public class TetrominoService
         return resultComposition;
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#setTetrominoBlockColor(tetris.model.TetrisBlockModel[][], java.awt.Color)
+	 */
     public void setTetrominoBlockColor(TetrisBlockModel[][] tetrisBlockModelComposition, Color color) {
         for (int x = 0; x < tetrisBlockModelComposition.length; x++) {
             for (int y = 0; y < tetrisBlockModelComposition[x].length; y++) {
@@ -141,6 +157,9 @@ public class TetrominoService
         }
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#rotateClockwise(tetris.model.TetrisBlockModel[][])
+	 */
     public TetrisBlockModel[][] rotateClockwise(TetrisBlockModel[][] tetrisBlockModelComposition) {
         TetrisBlockModel[][] resultTetrisBlockModelComposition = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH][TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
         
@@ -153,6 +172,9 @@ public class TetrominoService
         return resultTetrisBlockModelComposition;
     }
     
+    /* (non-Javadoc)
+	 * @see tetris.businesslogic.ITetrominoService#rotateCounterClockwise(tetris.model.TetrisBlockModel[][])
+	 */
     public TetrisBlockModel[][] rotateCounterClockwise(TetrisBlockModel[][] tetrisBlockModelComposition) {
         // tripple clockwise rotation
         return rotateClockwise(rotateClockwise(rotateClockwise(tetrisBlockModelComposition)));

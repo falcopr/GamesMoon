@@ -7,12 +7,11 @@ import javax.swing.JPanel;
 import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisMatrixModel;
+import tetris.model.TetrominoModel;
 
 public interface ITetrisMatrixAreaService
 {
-
-    void addTetromino(JPanel tetrisMatrixAreaPanel,
-            TetrisMatrixModel tetrisMatrixModel);
+	void addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel);
 
     void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel);
     

@@ -16,21 +16,23 @@ import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 {
-    public void addTetromino(JPanel tetrisMatrixAreaPanel, TetrisMatrixModel tetrisMatrixModel) {
-        TetrominoModel currentTetromino = tetrisMatrixModel.getCurrentTetromino();
-        TetrisBlockModel[][] tetrisBlockComposition = currentTetromino.getTetrominoBlockComposition();
+    public void addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel) {
+        tetrisMatrixModel.setCurrentTetromino(tetrominoModel);
+        // Blockcomposition of tetromino
+        TetrisBlockModel[][] tetrisBlockComposition = tetrominoModel.getTetrominoBlockComposition();
+        
+        TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
+        int centerOfTetrisMatrixModel = (tetrisMatrixModel.getWidth() / 2) - 1;
         
         for (int i = 0; i < tetrisBlockComposition.length; i++) {
-            for (int j = 0; j < tetrisBlockComposition[i].length; i++) {
+            for (int j = 0; j < tetrisBlockComposition[i].length; j++) {
                 TetrisBlockModel tetrisBlockModel = tetrisBlockComposition[i][j];
                 
                 if (tetrisBlockModel != null) {
-                    
+                    tetrisBlockMatrix[i][centerOfTetrisMatrixModel + j] = tetrisBlockModel; 
                 }
             }
         }
-        
-        tetrisMatrixAreaPanel.repaint();
     }
     
     public void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel) {

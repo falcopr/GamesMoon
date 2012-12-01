@@ -18,7 +18,7 @@ public class TetrisMatrixModel {
 	private TetrominoModel m_CurrentTetromino;
 	
 	public TetrisMatrixModel() {
-		m_TetrisBlockMatrix = new TetrisBlockModel[m_Height][m_Width];
+		m_TetrisBlockMatrix = new TetrisBlockModel[getHeight()][getWidth()];
 		m_BackgroundColor = Color.GRAY;
 		m_Position = new Point(0,0);
 	}
@@ -28,13 +28,13 @@ public class TetrisMatrixModel {
 		this.m_Width = width;
 		this.m_Height = heigth;
 		
-		m_TetrisBlockMatrix = new TetrisBlockModel[m_Height][m_Width];
+		m_TetrisBlockMatrix = new TetrisBlockModel[getHeight()][getWidth()];
 		
 		// initialize matrix empty
-		for (int i = 0; i < m_Width; i++) {
+		for (int i = 0; i < getWidth(); i++) {
 			m_TetrisBlockMatrix[i] = new TetrisBlockModel[] {};
 			
-			for (int j = 0; j < m_Height; j++) {
+			for (int j = 0; j < getHeight(); j++) {
 				m_TetrisBlockMatrix[i][j] = null;
 			}
 		}
@@ -81,4 +81,12 @@ public class TetrisMatrixModel {
     public void setCurrentTetromino(TetrominoModel tetromino) {
         this.m_CurrentTetromino = tetromino;
     }
+
+	public int getHeight() {
+		return m_Height;
+	}
+
+	public int getWidth() {
+		return m_Width;
+	}
 }
