@@ -17,15 +17,15 @@ public class TetrisPlayingAreaConfiguration
     
     public final static int TETRISBLOCK_WIDTH = 10;
     public final static int TETRISBLOCK_HEIGHT = 25;
-    public final static int TETRISBLOCK_LENGTH = 23;
-    
-    public final static int HEADERAREA_WIDTH = MAXWIDTH;
-    public final static int HEADERAREA_HEIGHT = 100;
+    public final static int TETRISBLOCK_LENGTH = 20;
     
     public final static int TETRISMATRIXAREA_WIDTH = TETRISBLOCK_WIDTH * TETRISBLOCK_LENGTH;
     public final static int TETRISMATRIXAREA_HEIGHT = TETRISBLOCK_HEIGHT * TETRISBLOCK_LENGTH;
     
-    public final static int INFOAREA_WIDTH = MAXWIDTH - TETRISMATRIXAREA_WIDTH;
+    public final static int HEADERAREA_WIDTH = MAXWIDTH;
+    public final static int HEADERAREA_HEIGHT = 640 - TETRISMATRIXAREA_HEIGHT - 46;
+    
+    public final static int INFOAREA_WIDTH = MAXWIDTH - TETRISMATRIXAREA_WIDTH - 1;
     public final static int INFOAREA_HEIGHT = MAXHEIGHT - HEADERAREA_HEIGHT;
     
     public final static String SCORE_LABELPREFIX = "Score: ";
@@ -53,4 +53,6 @@ public class TetrisPlayingAreaConfiguration
     public final static int SOFTDROP = 40; // Down Arrow
     public final static int ROTATELEFT = 65; // A
     public final static int ROTATERIGHT = 68; // D
+    
+    public final static int TIMERDELAY_DEFAULT = 200;
 }

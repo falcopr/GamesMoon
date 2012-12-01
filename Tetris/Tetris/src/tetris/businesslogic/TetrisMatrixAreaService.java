@@ -1,5 +1,6 @@
 package tetris.businesslogic;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -10,6 +11,8 @@ import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisMatrixModel;
 import tetris.model.TetrominoModel;
+
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 {
@@ -41,6 +44,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                     g.fillRect(tetrisBlockRectangle.width * j, tetrisBlockRectangle.height * i, tetrisBlockRectangle.width, tetrisBlockRectangle.height);
                     //g.drawRect(x, y, width, height) --> drawing outline
                 }
+                g.setColor(Color.BLACK);
+                g.drawRect(TETRISBLOCK_LENGTH * j, TETRISBLOCK_LENGTH * i, TETRISBLOCK_LENGTH, TETRISBLOCK_LENGTH);
             }
         }
     }

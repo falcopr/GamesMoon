@@ -22,7 +22,7 @@ import static tetris.common.TetrisPlayingAreaConfiguration.*;
 public class PlayingAreaService implements IPlayingAreaService
 {
     // view is a JPanel at this moment --> should be constructed generic later
-    public void ConfiguratePlayingAreaView(IPlayingAreaView view, TetrisPlayingAreaModel model) throws Exception {
+    public void configuratePlayingAreaView(IPlayingAreaView view, TetrisPlayingAreaModel model) throws Exception {
         JPanel playingAreaPanel = view.getPlayingAreaPanel();
         BorderLayout viewLayoutManager = new BorderLayout();
         playingAreaPanel.setLayout(viewLayoutManager);

@@ -12,6 +12,8 @@ import tetris.model.TetrisPlayingAreaModel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
 
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
+
 public class PlayingAreaPresenter implements IPlayingAreaPresenter
 {
     private IPlayingAreaView m_View;
@@ -40,17 +42,24 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     
     public void initializePlayingArea() throws Exception
     {
-        m_PlayingAreaService.ConfiguratePlayingAreaView(m_View, m_Model);
+        m_PlayingAreaService.configuratePlayingAreaView(m_View, m_Model);
         
         // testblock
         m_TetrisBlockModel = new TetrisBlockModel();
         m_TetrisBlockModel.setColor(Color.RED);
-        m_TetrisBlockModel.setLength(25);
+        m_TetrisBlockModel.setLength(TETRISBLOCK_LENGTH);
         m_TetrisBlockModel.setPosition(2, 3);
         m_Model.getTetrisMatrixModel().addTetrisBlockToMatrix(m_TetrisBlockModel);
         m_View.getTetrisMatrixArea().repaint();
     }
-
+    
+    public void updatePlayingArea() {
+    	m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
+        m_View.getTetrisMatrixArea().repaint();
+        System.out.println(m_View.getHeaderArea().getPreferredSize());
+        System.out.println(m_View.getTetrisMatrixArea().getPreferredSize());
+    }
+    
     @Override
     public void shiftTetrominoLeft()
     {
