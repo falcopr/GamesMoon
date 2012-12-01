@@ -6,6 +6,7 @@ public interface IPlayingAreaPresenter
 {
     void setView(IPlayingAreaView view);
     void initializePlayingArea() throws Exception;
+    void updatePlayingArea();
     void shiftTetrominoLeft();
     void shiftTetrominoRight();
     void softDropTetromino();

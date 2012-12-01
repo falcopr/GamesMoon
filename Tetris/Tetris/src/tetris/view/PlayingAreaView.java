@@ -1,10 +1,13 @@
 package tetris.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import tetris.controls.TetrisMatrixPanel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
@@ -30,6 +33,7 @@ public class PlayingAreaView implements IPlayingAreaView
     private JLabel m_LevelLabel;
     
     private JLabel m_HeaderText;
+    private Timer m_Timer;
     
     private IPlayingAreaPresenter m_Presenter;
     
@@ -46,12 +50,14 @@ public class PlayingAreaView implements IPlayingAreaView
         m_LevelLabel = new JLabel();
         
         m_HeaderText = new JLabel();
+        m_Timer = new Timer(TIMERDELAY_DEFAULT, getActionListener());
         
         m_Presenter = PresenterContainer.getPresenterContainer().getComponent(IPlayingAreaPresenter.class);
         m_Presenter.setView(this);
         
         try {
             m_Presenter.initializePlayingArea();
+            m_Timer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,6 +104,16 @@ public class PlayingAreaView implements IPlayingAreaView
             {
             }
         };
+    }
+    
+    public ActionListener getActionListener() {
+    	return new ActionListener() {
+    		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				m_Presenter.updatePlayingArea();
+			}
+    	};
     }
     
     public JPanel getInfoArea()
@@ -189,4 +205,12 @@ public class PlayingAreaView implements IPlayingAreaView
     {
         this.m_InfoGameInfoArea = infoGameInfoArea;
     }
+
+	public Timer getTimer() {
+		return m_Timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.m_Timer = timer;
+	}
 }

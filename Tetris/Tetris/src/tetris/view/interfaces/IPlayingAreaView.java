@@ -2,6 +2,7 @@ package tetris.view.interfaces;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import tetris.controls.TetrisMatrixPanel;
 
@@ -42,4 +43,8 @@ public interface IPlayingAreaView
     JPanel getInfoGameInfoArea();
     
     void setInfoGameInfoArea(JPanel infoGameInfoArea);
+    
+    Timer getTimer();
+    
+    void setTimer(Timer timer);
 }
