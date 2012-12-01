@@ -19,28 +19,57 @@ login();
 <body>
 
   <div align="center">
-    <h1><span id="g">W</span>
-        <span id="r">i</span>
-        <span id="y">l</span>
-        <span id="p">l</span>
-        <span id="b">k</span>
-        <span id="t">o</span>
-        <span id="o">m</span>
-        <span id="p">m</span>
-        <span id="g">e</span>
-        <span id="r">n</span>
+    <h1><span id="g">G</span>
+        <span id="r">a</span>
+        <span id="y">m</span>
+        <span id="pu">e</span>
+        <span id="b">s</span>
+        <span id="t">m</span>
+        <span id="o">o</span>
+        <span id="pi">o</span>
+        <span id="y">n</span>
     </h1>
     
   </div>
 
-  <div align="center">
+  <div align="right">
     <form action="login.php" method="POST">
-    <p>Bitte Loggen sie sich ein:<br/></p>
-    <p>Alias: <input type="Text" name="username"><br/></p>
-    <p>Passwort: <input type="Password" name="password"><br/></p>
-    <input type="Submit" value="Login">
+      <table>
+        <tr>
+        <th align="right">
+        </th>
+        <th align="left">
+          <p><span>Bitte hier einloggen:</span></p>
+        </th>
+        </tr>
+        <tr>
+        <td align="right">
+          <p><span>Alias:</span></p>
+        </td>
+        <td align="left">
+          <input type="Text" name="username">
+        </td>
+        </tr>
+        <tr>
+        <td align="right">
+          <p><span>Passwort:</span>
+        </td>
+        <td align="left">
+          <input type="Password" name="password">
+        </td>
+        <tr>
+        <td>
+        </td>
+        <td align="center">
+             <input type="Submit" value="Login">
+        </td>
+        </tr>
+          </p>
+        </tr>
+
+      </table>
     </form>
-  </div>
+    </div>
   
 </body>
 </html>
