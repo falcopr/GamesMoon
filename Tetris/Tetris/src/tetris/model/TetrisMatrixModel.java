@@ -50,8 +50,8 @@ public class TetrisMatrixModel {
 	    Rectangle rectangle = tetrisBlockModel.getRectangle();
 	    
 	    // TetrisBlockModel contains Positioning in Matrix instead of absolute Position
-	    int i = rectangle.y;
 	    int j = rectangle.x;
+	    int i = rectangle.y;
 	    
 	    m_TetrisBlockMatrix[i][j] = tetrisBlockModel;
 	}

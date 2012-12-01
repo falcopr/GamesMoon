@@ -21,14 +21,14 @@ public class Program extends Applet {
 	@Override
 	public void init() {
 		super.init();
-		connector = new ServerConnector(this, getParameter("path"));
+		// connector = new ServerConnector(this, getParameter("path"));
 		
 		ViewContainer.initializeToProductiveContainer();
 		PresenterContainer.initializeToProductiveContainer();
 		BusinessLogicContainer.initializeToProductiveContainer();
 
 		IPlayingAreaView startingView = ViewContainer.getViewContainer().getComponent(IPlayingAreaView.class);
-		startingView.setServerConnector(connector);
+		// startingView.setServerConnector(connector);
 		
 		// Frame for testpurposes
 		this.add(startingView.getPlayingAreaPanel());

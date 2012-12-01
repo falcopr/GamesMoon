@@ -20,8 +20,6 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         tetrisMatrixModel.setCurrentTetromino(tetrominoModel);
         // Blockcomposition of tetromino
         TetrisBlockModel[][] tetrisBlockComposition = tetrominoModel.getTetrominoBlockComposition();
-        
-        TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
         int centerOfTetrisMatrixModel = (tetrisMatrixModel.getWidth() / 2) - 1;
         
         for (int i = 0; i < tetrisBlockComposition.length; i++) {
@@ -29,7 +27,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                 TetrisBlockModel tetrisBlockModel = tetrisBlockComposition[i][j];
                 
                 if (tetrisBlockModel != null) {
-                    tetrisBlockMatrix[i][centerOfTetrisMatrixModel + j] = tetrisBlockModel; 
+                    tetrisBlockModel.setPosition(i, centerOfTetrisMatrixModel + j);
+                    tetrisMatrixModel.addTetrisBlockToMatrix(tetrisBlockModel);
                 }
             }
         }
@@ -54,10 +53,10 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     
     public void moveTetrisBlock(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel tetrisBlockModel, TetrisBlockMovementDirection movementDirection) {
         Rectangle currentTetrisBlockRectangle = tetrisBlockModel.getRectangle();
-        int currentI = currentTetrisBlockRectangle.y;
+
         int currentJ = currentTetrisBlockRectangle.x;
-        
-        tetrisMatrixModel.getTetrisBlockMatrix()[currentI][currentJ] = null;
+        int currentI = currentTetrisBlockRectangle.y;
+
         int i = 0; 
         int j = 0;
                 
@@ -82,7 +81,41 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
             return;
         }
         
-        tetrisMatrixModel.getTetrisBlockMatrix()[i][j] = tetrisBlockModel;
         tetrisBlockModel.setPosition(i, j);
+        System.out.println(i + " " + j);
+    }
+    
+    public void moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection) {
+    	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
+    	
+    	if (currentTetrominoModel != null) {
+        	TetrisBlockModel[][] tetriminoBlockComposition = currentTetrominoModel.getTetrominoBlockComposition();
+        	
+            for (int i = 0; i < tetriminoBlockComposition.length; i++) {
+                for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
+                    TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
+                    
+                    if (tetrisBlockModel != null) {
+                	    int j1 = tetrisBlockModel.getRectangle().x;
+                	    int i1 = tetrisBlockModel.getRectangle().y;
+                	    
+                    	tetrisMatrixModel.getTetrisBlockMatrix()[i1][j1] = null;
+                    }
+                	
+
+                }
+            }
+        	
+            for (int i = 0; i < tetriminoBlockComposition.length; i++) {
+                for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
+                    TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
+                	
+                    if (tetrisBlockModel != null) {
+                    	moveTetrisBlock(tetrisMatrixModel, tetrisBlockModel, movementDirection);
+                        tetrisMatrixModel.addTetrisBlockToMatrix(tetrisBlockModel);
+                    }
+                }
+            }
+    	}
     }
 }
