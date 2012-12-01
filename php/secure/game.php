@@ -1,7 +1,10 @@
 <?php
 require_once 'sql.php';
 
-function getGameList($LOCATION, $HOME) {
+function getGameList() {
+    global $LOCATION;
+    global $HOME;
+    
     $html="<ul>\n";
     $games = getAllGames();
     foreach ($games as &$game) {
@@ -11,7 +14,10 @@ function getGameList($LOCATION, $HOME) {
     echo $html;
 }
 
-function getGameTabs($id, $LOCATION, $HOME) {
+function getGameTabs($id) {
+    global $LOCATION;
+    global $HOME;
+    
     $html="<table><tr>";
     $html=$html.'<th><a href="'.$LOCATION.$HOME.'?id='.$id.'&tab=game">Game</a></th>';
     $html=$html.'<th><a href="'.$LOCATION.$HOME.'?id='.$id.'&tab=all">All Scores</a></th>';
@@ -21,7 +27,9 @@ function getGameTabs($id, $LOCATION, $HOME) {
     echo $html;
 }
 
-function formatGameTab($id, $LOCATION) {
+function formatGameTab($id) {
+    global $LOCATION;
+    
     $game=getGame($id);
     $html='<object name="applet_game" type="application/x-java-applet" width='.$game["width"].' height='.$game["height"].'>
     <param name="archive" value="'.$game["path"].'" >
