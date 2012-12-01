@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import tetris.controls.TetrisMatrixPanel;
+import tetris.common.*;
 
 public interface IPlayingAreaView
 {
@@ -47,4 +48,6 @@ public interface IPlayingAreaView
     Timer getTimer();
     
     void setTimer(Timer timer);
+    
+    void setServerConnector(ServerConnector serverConnector);
 }

@@ -1,4 +1,4 @@
-package tetris;
+package tetris.common;
 
 import java.applet.Applet;
 import java.io.BufferedReader;

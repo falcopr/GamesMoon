@@ -3,6 +3,7 @@ package tetris;
 import java.applet.Applet;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
+import tetris.common.ServerConnector;
 import tetris.presenter.container.PresenterContainer;
 import tetris.view.container.ViewContainer;
 import tetris.view.interfaces.IPlayingAreaView;
@@ -27,9 +28,9 @@ public class Program extends Applet {
 		PresenterContainer.initializeToProductiveContainer();
 		BusinessLogicContainer.initializeToProductiveContainer();
 
-		IPlayingAreaView startingView = ViewContainer.getViewContainer()
-				.getComponent(IPlayingAreaView.class);
-
+		IPlayingAreaView startingView = ViewContainer.getViewContainer().getComponent(IPlayingAreaView.class);
+		startingView.setServerConnector(connector);
+		
 		// Frame for testpurposes
 		this.add(startingView.getPlayingAreaPanel());
 		this.setSize(500, 650);

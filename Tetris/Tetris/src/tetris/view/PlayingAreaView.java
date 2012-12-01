@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import tetris.common.ServerConnector;
 import tetris.controls.TetrisMatrixPanel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
@@ -21,6 +22,7 @@ public class PlayingAreaView implements IPlayingAreaView
 {
     private static final long serialVersionUID = 70105825892525223L;
     
+    private ServerConnector m_ServerConnector;
     private JPanel m_PlayingAreaPanel;
     
     private JPanel m_InfoArea;
@@ -88,6 +90,14 @@ public class PlayingAreaView implements IPlayingAreaView
                 case ROTATERIGHT:
                     m_Presenter.rotateRightTetromino();
                     break;
+                case 83:
+                	// Punktesendung
+                	try {
+						m_ServerConnector.sendScore(9000);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+                	break;
                 default:
                     evt.consume();
                     return;
@@ -212,5 +222,9 @@ public class PlayingAreaView implements IPlayingAreaView
 
 	public void setTimer(Timer timer) {
 		this.m_Timer = timer;
+	}
+
+	public void setServerConnector(ServerConnector serverConnector) {
+		this.m_ServerConnector = serverConnector;  
 	}
 }
