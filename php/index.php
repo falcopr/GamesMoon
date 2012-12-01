@@ -26,7 +26,7 @@ echo '<a href="'.$LOCATION.$LOGOUT.'">Logout</a>';
 <div id="games">
 <?php
 require_once 'secure/game.php';
-getGameList($LOCATION, $HOME);
+getGameList();
 ?>
 </div>
 <div id="frame">
@@ -36,7 +36,7 @@ if(isset($_GET["id"])) {
     ?>
 <div id="tabs">
     <?php
-    getGameTabs($game_id, $LOCATION, $HOME);
+    getGameTabs($game_id);
     ?>
 </div>
     <?php
@@ -60,7 +60,7 @@ if(isset($_GET["id"])) {
 	    ?>
 <div id="game">
 	    <?php
-	    formatGameTab($game_id, $LOCATION);
+	    formatGameTab($game_id);
 	    ?>
 </div>
 	    <?php
