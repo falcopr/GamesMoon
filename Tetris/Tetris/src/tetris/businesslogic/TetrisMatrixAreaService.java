@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
+import tetris.businesslogic.interfaces.ICollisionDetectionService;
 import tetris.businesslogic.interfaces.ITetrisBlockService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
 import tetris.businesslogic.interfaces.ITetrominoService;
@@ -20,10 +21,12 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 {
 	private ITetrisBlockService m_TetrisBlockService;
 	private ITetrominoService m_TetrominoService;
+	private ICollisionDetectionService m_CollisionDetectionService;
 	
 	public TetrisMatrixAreaService () {
 		m_TetrisBlockService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ITetrisBlockService.class);
 		m_TetrominoService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ITetrominoService.class);
+		m_CollisionDetectionService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ICollisionDetectionService.class);
 	}
 	
     public void addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel) {
@@ -68,6 +71,13 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
     	
     	if (currentTetrominoModel != null) {
+    		
+    		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnTranslation(currentTetrominoModel, movementDirection);
+    		
+    		if (isCollidedToBorder) {
+    			return;
+    		}
+    		
         	Point currentTetriminoPosition = currentTetrominoModel.getPosition();
         	
             switch (movementDirection) {

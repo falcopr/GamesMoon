@@ -39,18 +39,9 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     public void initializePlayingArea() throws Exception
     {
         m_PlayingAreaService.configuratePlayingAreaView(m_View, m_Model);
-        
-        // testblock test
-        // m_TetrisBlockModel = new TetrisBlockModel();
-        // m_TetrisBlockModel.setColor(Color.RED);
-        // m_TetrisBlockModel.setLength(TETRISBLOCK_LENGTH);
-        // m_TetrisBlockModel.setPosition(2, 3);
-        // m_Model.getTetrisMatrixModel().addTetrisBlockToMatrix(m_TetrisBlockModel);
-        // m_View.getTetrisMatrixArea().repaint();
     }
     
     public void updatePlayingArea() {
-    	//m_TetrisMatrixAreaService.moveTetrisBlock(m_Model.getTetrisMatrixModel(), m_TetrisBlockModel, TetrisBlockMovementDirection.SOUTH);
     	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.SOUTH);
     	m_View.getTetrisMatrixArea().repaint();
     }

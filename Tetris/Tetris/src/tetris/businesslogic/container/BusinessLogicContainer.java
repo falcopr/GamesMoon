@@ -2,10 +2,12 @@ package tetris.businesslogic.container;
 
 import org.picocontainer.DefaultPicoContainer;
 
+import tetris.businesslogic.CollisionDetectionService;
 import tetris.businesslogic.PlayingAreaService;
 import tetris.businesslogic.TetrisBlockService;
 import tetris.businesslogic.TetrisMatrixAreaService;
 import tetris.businesslogic.TetrominoService;
+import tetris.businesslogic.interfaces.ICollisionDetectionService;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
 import tetris.businesslogic.interfaces.ITetrisBlockService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
@@ -30,5 +32,6 @@ public class BusinessLogicContainer extends DefaultPicoContainer
         m_BusinessLogicContainer.addComponent(ITetrisMatrixAreaService.class, TetrisMatrixAreaService.class);
         m_BusinessLogicContainer.addComponent(ITetrominoService.class, TetrominoService.class);
         m_BusinessLogicContainer.addComponent(ITetrisBlockService.class, TetrisBlockService.class);
+        m_BusinessLogicContainer.addComponent(ICollisionDetectionService.class, CollisionDetectionService.class);
     }
 }
