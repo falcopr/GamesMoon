@@ -20,10 +20,11 @@ public interface ITetrominoService {
 	public void setTetrominoBlockColor(
 			TetrisBlockModel[][] tetrisBlockModelComposition, Color color);
 
-	public TetrisBlockModel[][] rotateClockwise(
-			TetrisBlockModel[][] tetrisBlockModelComposition);
+	public TetrisBlockModel[][] rotateClockwise(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset);
 
-	public TetrisBlockModel[][] rotateCounterClockwise(
-			TetrisBlockModel[][] tetrisBlockModelComposition);
+	public TetrisBlockModel[][] rotateCounterClockwise(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset);
+	
+	public TetrisBlockModel[][] translateToOrigin(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset);
+	
 
 }

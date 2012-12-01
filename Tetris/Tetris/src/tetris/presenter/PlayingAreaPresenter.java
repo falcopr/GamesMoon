@@ -1,18 +1,13 @@
 package tetris.presenter;
 
-import java.awt.Color;
-
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
 import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.enums.TetrisBlockMovementDirection;
-import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisPlayingAreaModel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
-
-import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class PlayingAreaPresenter implements IPlayingAreaPresenter
 {
@@ -21,9 +16,6 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     private ITetrisMatrixAreaService m_TetrisMatrixAreaService;
     private ITetrominoService m_TetrominoService;
     private TetrisPlayingAreaModel m_Model;
-    
-    // TestBlock
-    private TetrisBlockModel m_TetrisBlockModel;
     
     public PlayingAreaPresenter() {
     	BusinessLogicContainer businessLogicContainer = BusinessLogicContainer.getBusinessLogicContainer();
@@ -83,6 +75,17 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
 
     public void rotateLeftTetromino()
     {
+    	m_TetrisMatrixAreaService.rotateClockwise(m_Model.getTetrisMatrixModel());
+        m_View.getTetrisMatrixArea().repaint();
+    }
+
+    public void rotateRightTetromino()
+    {
+    	m_TetrisMatrixAreaService.rotateCounterClockwise(m_Model.getTetrisMatrixModel());
+        m_View.getTetrisMatrixArea().repaint();
+    }
+    
+    public void addTetromino() {
         // Test adding Tetrisblock
     	try {
 			m_TetrisMatrixAreaService.addTetromino(m_TetrominoService.getNext(), m_Model.getTetrisMatrixModel());
@@ -92,10 +95,5 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
 		}
     	
         m_View.getTetrisMatrixArea().repaint();
-    }
-
-    public void rotateRightTetromino()
-    {
-        
     }
 }

@@ -32,6 +32,7 @@ public class Program extends Applet {
 		
 		// Frame for testpurposes
 		this.add(startingView.getPlayingAreaPanel());
+		this.requestFocus();
 		this.setSize(500, 650);
 		this.setVisible(true);
 		// JFrame f = new JFrame("Test");

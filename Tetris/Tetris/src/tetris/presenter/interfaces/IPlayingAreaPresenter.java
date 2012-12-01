@@ -12,4 +12,5 @@ public interface IPlayingAreaPresenter
     void softDropTetromino();
     void rotateLeftTetromino();
     void rotateRightTetromino();
+    void addTetromino();
 }

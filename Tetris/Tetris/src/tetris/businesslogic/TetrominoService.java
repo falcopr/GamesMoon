@@ -160,14 +160,21 @@ public class TetrominoService implements ITetrominoService
     /* (non-Javadoc)
 	 * @see tetris.businesslogic.ITetrominoService#rotateClockwise(tetris.model.TetrisBlockModel[][])
 	 */
-    public TetrisBlockModel[][] rotateClockwise(TetrisBlockModel[][] tetrisBlockModelComposition) {
+    public TetrisBlockModel[][] rotateClockwise(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset) {
         TetrisBlockModel[][] resultTetrisBlockModelComposition = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH][TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
         
-        for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; ++x) {
-            for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
-                resultTetrisBlockModelComposition[x][y] = tetrisBlockModelComposition[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH - y - 1][x]; 
+        // rorates matrix clockwise
+        for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; ++i) {
+            for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; ++j) {
+                resultTetrisBlockModelComposition[i][j] = tetrisBlockModelComposition[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH - j - 1][i]; 
+                
+                if (resultTetrisBlockModelComposition[i][j] != null) {
+                    resultTetrisBlockModelComposition[i][j].setPosition(i + yOffset, j + xOffset);
+                    System.out.println("Rotation x: " + (j + xOffset) + " y: " + (i + yOffset));
+                }
             }
         }
+        
         
         return resultTetrisBlockModelComposition;
     }
@@ -175,8 +182,83 @@ public class TetrominoService implements ITetrominoService
     /* (non-Javadoc)
 	 * @see tetris.businesslogic.ITetrominoService#rotateCounterClockwise(tetris.model.TetrisBlockModel[][])
 	 */
-    public TetrisBlockModel[][] rotateCounterClockwise(TetrisBlockModel[][] tetrisBlockModelComposition) {
+    public TetrisBlockModel[][] rotateCounterClockwise(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset) {
         // tripple clockwise rotation
-        return rotateClockwise(rotateClockwise(rotateClockwise(tetrisBlockModelComposition)));
+    	TetrisBlockModel[][] tempTetrisBlockModelCompositionTrippleRotated = rotateClockwise(rotateClockwise(rotateClockwise(tetrisBlockModelComposition, xOffset, yOffset), xOffset, yOffset), xOffset, yOffset);  
+        return tempTetrisBlockModelCompositionTrippleRotated;
+    }
+    
+    public TetrisBlockModel[][] translateToOrigin(TetrisBlockModel[][] tetrisBlockModelComposition, int xOffset, int yOffset) {
+        TetrisBlockModel[][] resultTetrisBlockModelComposition = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH][TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
+        
+    	int possibleXTranslation = 0;
+        for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; x++) {
+        	boolean isNullBlockRow = true;
+        	
+            for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
+            	isNullBlockRow &= tetrisBlockModelComposition[y][x] == null;
+            }
+            
+            if (!isNullBlockRow) {
+            	break;
+            }
+            
+            possibleXTranslation++;
+        }
+        
+        System.out.println("Possible X Translation: " + possibleXTranslation);
+        
+    	int possibleYTranslation = 0;
+        for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
+        	boolean isNullBlockRow = true;
+        	
+            for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; x++) {
+            	isNullBlockRow &= tetrisBlockModelComposition[y][x] == null;
+            }
+            
+            if (!isNullBlockRow) {
+            	break;
+            }
+            
+            possibleYTranslation++;
+        }
+        
+        System.out.println("Possible Y Translation: " + possibleYTranslation);
+        
+        if (possibleXTranslation != 0 || possibleYTranslation != 0) {
+        	for (int yTranslation = 0; yTranslation < possibleYTranslation; yTranslation++) {
+            	for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; x++) {
+            		for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
+            			TetrisBlockModel tempTetrisBlockModel = tetrisBlockModelComposition[y][x];
+            			
+            			if (tempTetrisBlockModel != null) {
+                			tetrisBlockModelComposition[y][x] = null;
+                			resultTetrisBlockModelComposition[y - 1][x] = tempTetrisBlockModel;
+                			tempTetrisBlockModel.setPosition(yOffset + y - 1, xOffset + x);
+                            System.out.println("Tranlation x: " + (x + xOffset) + " y: " + (y + yOffset));
+            			}
+            		}
+            	}
+        	}
+        	
+        	for (int xTranslation = 0; xTranslation < possibleXTranslation; xTranslation++) {
+	        	for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
+	        		for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; x++) {
+	        			TetrisBlockModel tempTetrisBlockModel = tetrisBlockModelComposition[y][x];
+	        			
+	        			if (tempTetrisBlockModel != null) {
+	            			tetrisBlockModelComposition[y][x] = null;
+	            			resultTetrisBlockModelComposition[y][x - 1] = tempTetrisBlockModel;
+                			tempTetrisBlockModel.setPosition(yOffset + y, xOffset + x - 1);
+                            System.out.println("Tranlation x: " + (x + xOffset) + " y: " + (y + yOffset));
+	        			}
+	        		}
+	        	}
+        	}
+        	
+            return resultTetrisBlockModelComposition;
+        }
+        
+        return tetrisBlockModelComposition;
     }
 }

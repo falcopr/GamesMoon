@@ -90,7 +90,11 @@ public class PlayingAreaView implements IPlayingAreaView
                 case ROTATERIGHT:
                     m_Presenter.rotateRightTetromino();
                     break;
-                case 83:
+                case 87: // w
+                	// add Tetrismino test
+                	m_Presenter.addTetromino();
+                	break;
+                case 83: // s
                 	// Punktesendung
                 	try {
 						m_ServerConnector.sendScore(9000);
