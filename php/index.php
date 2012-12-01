@@ -13,7 +13,7 @@ if (!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']) {
 <link rel="stylesheet" type="text/css" href="./css/format.css">
 </style>
 </head>
-<body>
+<body onLoad="siteLoaded();">
 <div id="all">
 <div id="header">
 <?php
@@ -26,7 +26,7 @@ echo '<a href="'.$LOCATION.$LOGOUT.'">Logout</a>';
 <div id="games">
 <?php
 require_once 'secure/game.php';
-getGameList();
+getGameList($LOCATION, $HOME);
 ?>
 </div>
 <div id="frame">
@@ -36,7 +36,7 @@ if(isset($_GET["id"])) {
     ?>
 <div id="tabs">
     <?php
-    getGameTabs($game_id);
+    getGameTabs($game_id, $LOCATION, $HOME);
     ?>
 </div>
     <?php
@@ -60,7 +60,7 @@ if(isset($_GET["id"])) {
 	    ?>
 <div id="game">
 	    <?php
-	    formatGameTab($game_id);
+	    formatGameTab($game_id, $LOCATION);
 	    ?>
 </div>
 	    <?php
@@ -72,4 +72,13 @@ if(isset($_GET["id"])) {
 </div>
 </div>
 </body>
+<script type="text/javascript">
+  function siteLoaded()
+  {
+    setTimeout("document.applet_game.requestFocus()", 500);
+    setTimeout("document.applet_game.requestFocus()", 1000);
+    setTimeout("document.applet_game.requestFocus()", 1500);
+  }
+  siteLoaded();
+</script>
 </html>

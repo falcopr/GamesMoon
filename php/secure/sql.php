@@ -44,6 +44,11 @@ function createSession($user_id) {
     $session_key = getHash($timestamp);
 
     $dbh = getdbh();
+    $stmt = $dbh->prepare("UPDATE sessions SET logout=now() where user_id=:user_id and logout IS NULL;");
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $stmt->closeCursor();
+    
     $stmt = $dbh->prepare("INSERT INTO sessions (user_id, session_key, login) VALUES (:user_id, :session_key, FROM_UNIXTIME(:login));");
     $stmt->bindParam(':user_id', $user_id);
     $stmt->bindParam(':session_key', $session_key);

@@ -1,0 +1,7 @@
+- Datenbank einspiel (gamesmoon.sql) (zum Beispiel mit mysql -u root -p < gamesmoon.sql)
+- Datenbankzugriff anpassen falls nötig (secure/db.php)
+- $LOCATION in secure/paths.php anpassen
+- alle Dateien unter php/ in den Order für den Http-Server kopieren (unter Ubuntu: /var/www/)
+- Spiele hinfügen
+  - Jar-Datei in applet-Ordner verschieben
+  - in Datenbank einfügen (Beispiel für Tetris: INSERT INTO games ( id_name, display_name, path, width, height, startfile ) VALUES ( tetris, Tetris, applets/tetris.jar, 500, 650, tetris.Program.class ); )

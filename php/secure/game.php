@@ -1,8 +1,7 @@
 <?php
 require_once 'sql.php';
-require_once 'paths.php';
 
-function getGameList() {
+function getGameList($LOCATION, $HOME) {
     $html="<ul>\n";
     $games = getAllGames();
     foreach ($games as &$game) {
@@ -12,7 +11,7 @@ function getGameList() {
     echo $html;
 }
 
-function getGameTabs($id) {
+function getGameTabs($id, $LOCATION, $HOME) {
     $html="<table><tr>";
     $html=$html.'<th><a href="'.$LOCATION.$HOME.'?id='.$id.'&tab=game">Game</a></th>';
     $html=$html.'<th><a href="'.$LOCATION.$HOME.'?id='.$id.'&tab=all">All Scores</a></th>';
@@ -22,11 +21,11 @@ function getGameTabs($id) {
     echo $html;
 }
 
-function formatGameTab($id) {
+function formatGameTab($id, $LOCATION) {
     $game=getGame($id);
-    $html='<object type="application/x-java-applet" width='.$game[width].' height='.$game[height].'>
-    <param name="archive" value="'.$game[path].'" >
-    <param name="classid" value="java:'.$game[startfile].'" >
+    $html='<object name="applet_game" type="application/x-java-applet" width='.$game["width"].' height='.$game["height"].'>
+    <param name="archive" value="'.$game["path"].'" >
+    <param name="classid" value="java:'.$game["startfile"].'" >
     <param name="path" value="'.$LOCATION.'">
     </object>';
     echo $html;
