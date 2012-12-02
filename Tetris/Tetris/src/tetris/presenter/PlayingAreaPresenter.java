@@ -87,4 +87,14 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     	
         m_View.getTetrisMatrixArea().repaint();
     }
+    
+    public void clearCurrentTetrominoFromMatrix() {
+    	m_TetrominoService.clearCurrentTetriminoFromMatrix(m_Model.getTetrisMatrixModel());
+    	m_Model.getTetrisMatrixModel().setCurrentTetromino(null);
+    }
+    
+    public void setCurrentTetrominoInMatrix() {
+    	m_TetrominoService.setCurrentTetriminoCompositionToMatrix(m_Model.getTetrisMatrixModel());
+    	
+    }
 }

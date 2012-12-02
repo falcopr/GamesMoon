@@ -6,5 +6,9 @@ import tetris.model.TetrominoModel;
 
 public interface ICollisionDetectionService {
 	boolean isTetrominoOutOfBordersOnTranslation(TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection);
-	boolean isTetrominoCollidingWithOtherTetrisBlocks(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection);
+	boolean isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection);
+	boolean isTetrominoOutOfBordersOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
+	boolean isTetrominoOutOfBordersOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
+	boolean isTetrominoCollidingWithOtherTetrisBlocksOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
+	boolean isTetrominoCollidingWithOtherTetrisBlocksOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
 }

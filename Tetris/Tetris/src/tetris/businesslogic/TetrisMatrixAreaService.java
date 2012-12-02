@@ -78,7 +78,7 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     			return;
     		}
     		
-    		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocks(tetrisMatrixModel, currentTetrominoModel, movementDirection);
+    		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(tetrisMatrixModel, currentTetrominoModel, movementDirection);
     		
     		if (isCollidedWithOtherTetrisBlock) {
     			return;
@@ -104,7 +104,7 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
             }
     		
         	// cleanup current tetromino position from matrix
-        	clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+            m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
         	
             // move tetromino and set blocks to the matrix
         	TetrisBlockModel[][] tetriminoBlockComposition = currentTetrominoModel.getTetrominoBlockComposition();
@@ -124,16 +124,22 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     public void rotateClockwise(TetrisMatrixModel tetrisMatrixModel) {
     	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
     	if (currentTetrominoModel != null) {
+    		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnClockwiseRotation(tetrisMatrixModel, currentTetrominoModel);
+
+    		if (isCollidedToBorder) {
+    			return;
+    		}
+    		
     		TetrisBlockModel[][] tetrisBlockModelComposition = currentTetrominoModel.getTetrominoBlockComposition();
     		
-    		clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    		m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
 	    	
 	    	Point currentTetrominoPosition = currentTetrominoModel.getPosition();
 	    	TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateClockwise(tetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
 	    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
 	    	
 	    	currentTetrominoModel.setTetrominoBlockComposition(translatedTetrisBlockModelComposition);
-	    	setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+	    	m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
     	}
     }
     
@@ -142,48 +148,14 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     	if (currentTetrominoModel != null) {
     		TetrisBlockModel[][] tetrisBlockModelComposition = currentTetrominoModel.getTetrominoBlockComposition();
     		
-    		clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    		m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
 	    	
 	    	Point currentTetrominoPosition = currentTetrominoModel.getPosition();
 	    	TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateCounterClockwise(tetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
 	    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
 	    	
 	    	currentTetrominoModel.setTetrominoBlockComposition(translatedTetrisBlockModelComposition);
-	    	setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+	    	m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
     	}
-    }
-    
-    private void clearCurrentTetriminoFromMatrix(TetrisMatrixModel tetrisMatrixModel) {
-    	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
-		
-    	TetrisBlockModel[][] tetriminoBlockComposition = currentTetrominoModel.getTetrominoBlockComposition();
-		
-    	// clears current rotation on the tetrisMatrixModel
-        for (int i = 0; i < tetriminoBlockComposition.length; i++) {
-            for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
-                TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
-                
-                if (tetrisBlockModel != null) {
-            	    int j1 = tetrisBlockModel.getRectangle().x;
-            	    int i1 = tetrisBlockModel.getRectangle().y;
-            	    
-                	tetrisMatrixModel.getTetrisBlockMatrix()[i1][j1] = null;
-                }
-            }
-        }
-    }
-    
-    private void setCurrentTetriminoCompositionToMatrix(TetrisMatrixModel tetrisMatrixModel) {
-    	TetrisBlockModel[][] tetriminoBlockComposition = tetrisMatrixModel.getCurrentTetromino().getTetrominoBlockComposition();
-    	for (int i = 0; i < tetriminoBlockComposition.length; i++) {
-            for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
-                TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
-            	
-                if (tetrisBlockModel != null) {
-                	System.out.println("Set Current Tetrimino Composition To Matrix x: " + tetrisBlockModel.getRectangle().x + " y: " + tetrisBlockModel.getRectangle().y);
-                    tetrisMatrixModel.addTetrisBlockToMatrix(tetrisBlockModel);
-                }
-            }
-        }
     }
 }

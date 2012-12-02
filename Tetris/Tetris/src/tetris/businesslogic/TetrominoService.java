@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.model.TetrisBlockModel;
+import tetris.model.TetrisMatrixModel;
 import tetris.model.TetrominoModel;
 
 import static tetris.common.TetrisPlayingAreaConfiguration.*;
@@ -193,13 +194,13 @@ public class TetrominoService implements ITetrominoService
         
     	int possibleXTranslation = 0;
         for (int x = 0; x < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; x++) {
-        	boolean isNullBlockRow = true;
+        	boolean isNullBlockColumn = true;
         	
             for (int y = 0; y < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; y++) {
-            	isNullBlockRow &= tetrisBlockModelComposition[y][x] == null;
+            	isNullBlockColumn &= tetrisBlockModelComposition[y][x] == null;
             }
             
-            if (!isNullBlockRow) {
+            if (!isNullBlockColumn) {
             	break;
             }
             
@@ -260,5 +261,58 @@ public class TetrominoService implements ITetrominoService
         }
         
         return tetrisBlockModelComposition;
+    }
+    
+    public TetrisBlockModel[][] cloneTetrominoBlockModelComposition(TetrominoModel tetromino) {
+		TetrisBlockModel[][] originalTetrisBlockModelComposition = tetromino.getTetrominoBlockComposition();
+		TetrisBlockModel[][] clonedTetrisBlockModelComposition = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH][TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
+		
+		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
+			clonedTetrisBlockModelComposition[i] = new TetrisBlockModel[TETRISBLOCKMODELCOMPOSITION_MAXLENGTH];
+			
+			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
+				TetrisBlockModel tetrisBlockModel = originalTetrisBlockModelComposition[i][j];
+				
+				if (tetrisBlockModel != null) {
+					clonedTetrisBlockModelComposition[i][j] = (TetrisBlockModel) tetrisBlockModel.deepClone();
+				}
+			}
+		}
+		
+		return clonedTetrisBlockModelComposition;
+    }
+    
+    public void clearCurrentTetriminoFromMatrix(TetrisMatrixModel tetrisMatrixModel) {
+    	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
+		
+    	TetrisBlockModel[][] tetriminoBlockComposition = currentTetrominoModel.getTetrominoBlockComposition();
+		
+    	// clears current rotation on the tetrisMatrixModel
+        for (int i = 0; i < tetriminoBlockComposition.length; i++) {
+            for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
+                TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
+                
+                if (tetrisBlockModel != null) {
+            	    int j1 = tetrisBlockModel.getRectangle().x;
+            	    int i1 = tetrisBlockModel.getRectangle().y;
+            	    
+                	tetrisMatrixModel.getTetrisBlockMatrix()[i1][j1] = null;
+                }
+            }
+        }
+    }
+    
+    public void setCurrentTetriminoCompositionToMatrix(TetrisMatrixModel tetrisMatrixModel) {
+    	TetrisBlockModel[][] tetriminoBlockComposition = tetrisMatrixModel.getCurrentTetromino().getTetrominoBlockComposition();
+    	for (int i = 0; i < tetriminoBlockComposition.length; i++) {
+            for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
+                TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
+            	
+                if (tetrisBlockModel != null) {
+                	System.out.println("Set Current Tetrimino Composition To Matrix x: " + tetrisBlockModel.getRectangle().x + " y: " + tetrisBlockModel.getRectangle().y);
+                    tetrisMatrixModel.addTetrisBlockToMatrix(tetrisBlockModel);
+                }
+            }
+        }
     }
 }

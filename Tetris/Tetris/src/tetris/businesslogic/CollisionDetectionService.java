@@ -3,7 +3,9 @@ package tetris.businesslogic;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.ICollisionDetectionService;
+import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.enums.TetrisBlockMovementDirection;
 import tetris.model.TetrisBlockModel;
 import tetris.model.TetrisMatrixModel;
@@ -12,6 +14,13 @@ import tetris.model.TetrominoModel;
 import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class CollisionDetectionService implements ICollisionDetectionService {
+	
+	ITetrominoService m_TetrominoService; 
+	
+	public CollisionDetectionService () {
+		m_TetrominoService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ITetrominoService.class);
+	}
+	
 	// has according to the direction x = +1 (EAST), x = -1 (WEST), y = +1 (NORTH), y = -1 (SOUTH)
 	public Point movementDirectionToVector (TetrisBlockMovementDirection movementDirection) {
 		Point movementVector = new Point(0, 0);
@@ -63,7 +72,7 @@ public class CollisionDetectionService implements ICollisionDetectionService {
     	return isOutOfBorder;
 	}
 	
-	public boolean isTetrominoCollidingWithOtherTetrisBlocks(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection) {
+	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection) {
     	boolean isCollidingWithTetrisBlock = false;
 		TetrisBlockModel[][] tetriminoBlockComposition = tetromino.getTetrominoBlockComposition();
     	Point movementVector = movementDirectionToVector(movementDirection);
@@ -135,5 +144,76 @@ public class CollisionDetectionService implements ICollisionDetectionService {
         }
     	
     	return isCollidingWithTetrisBlock;
+	}
+
+	public boolean isTetrominoOutOfBordersOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
+		TetrisBlockModel[][] clonedTetrisBlockModelComposition = m_TetrominoService.cloneTetrominoBlockModelComposition(tetromino);
+		
+		Point currentTetrominoPosition = tetromino.getPosition();
+		
+		TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateClockwise(clonedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	
+    	m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    	tetrisMatrixModel.setCurrentTetromino(null);
+    	
+		boolean isIntersecting = isTetrominoIntersectingWithTheBorders(translatedTetrisBlockModelComposition);
+		
+    	tetrisMatrixModel.setCurrentTetromino(tetromino);
+		m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+		
+		return isIntersecting;
+	}
+	
+	public boolean isTetrominoOutOfBordersOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
+		return true;
+	}
+	
+	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
+		return true;
+	}
+	
+	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
+		return true;
+	}
+	
+	private boolean isTetrominoIntersectingWithTheBorders(TetrisBlockModel[][] tetrisBlockModelComposition) {
+		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
+			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
+				TetrisBlockModel tetrisBlockModel = tetrisBlockModelComposition[i][j];
+				
+				if (tetrisBlockModel != null) {
+					Rectangle tetrisBlockModelPosition = tetrisBlockModel.getRectangle();
+					
+					if (tetrisBlockModelPosition.y >= TETRISBLOCK_HEIGHT ||
+						tetrisBlockModelPosition.x >= TETRISBLOCK_WIDTH ||
+						tetrisBlockModelPosition.x < 0){
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel[][] tetrisBlockModelComposition) {
+		TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
+		
+		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
+			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
+				TetrisBlockModel tetrisBlockModel = tetrisBlockModelComposition[i][j];
+				
+				if (tetrisBlockModel != null) {
+					Rectangle tetrisBlockModelPosition = tetrisBlockModel.getRectangle();
+					
+					if (tetrisBlockMatrix[tetrisBlockModelPosition.y][tetrisBlockModelPosition.x] != null) {
+						return true;
+					}
+				}
+			}
+		}
+    	
+    	return false;
 	}
 }

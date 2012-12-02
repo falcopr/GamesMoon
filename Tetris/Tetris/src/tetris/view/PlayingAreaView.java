@@ -102,6 +102,12 @@ public class PlayingAreaView implements IPlayingAreaView
 						e.printStackTrace();
 					}
                 	break;
+                case 81: // q
+                	m_Presenter.clearCurrentTetrominoFromMatrix();
+                	break;
+                case 69: // e
+                	m_Presenter.setCurrentTetrominoInMatrix();
+                	break;
                 default:
                     evt.consume();
                     return;

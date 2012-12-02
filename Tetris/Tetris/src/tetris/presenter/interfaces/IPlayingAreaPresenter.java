@@ -13,4 +13,6 @@ public interface IPlayingAreaPresenter
     void rotateLeftTetromino();
     void rotateRightTetromino();
     void addTetromino();
+    void clearCurrentTetrominoFromMatrix();
+    void setCurrentTetrominoInMatrix();
 }

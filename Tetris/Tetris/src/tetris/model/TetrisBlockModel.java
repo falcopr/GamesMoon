@@ -2,11 +2,13 @@ package tetris.model;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 // holds data --> essential part of which the tetromino consists of
-public class TetrisBlockModel {
+public class TetrisBlockModel implements Cloneable, Serializable {
+	private static final long serialVersionUID = 4804266154297042493L;
 	// rectangle should be a square
 	private int m_Length;
 	private Rectangle m_Rectangle;
@@ -42,5 +44,27 @@ public class TetrisBlockModel {
 
 	public void setColor(Color color) {
 		this.m_Color = color;
+	}
+	
+	public TetrisBlockModel deepClone() {
+		TetrisBlockModel tetrisBlockModel = new TetrisBlockModel();
+		
+		tetrisBlockModel.setLength(m_Length);
+		tetrisBlockModel.setPosition(m_Rectangle.y, m_Rectangle.x);
+		tetrisBlockModel.setColor(m_Color);
+		
+		return tetrisBlockModel;
+	}
+	
+	@Override
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			System.out.println("Some Cloning Errors");
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }
