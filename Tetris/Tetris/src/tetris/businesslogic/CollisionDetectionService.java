@@ -245,6 +245,26 @@ public class CollisionDetectionService implements ICollisionDetectionService {
 		return isIntersecting;
 	}
 	
+	public boolean isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel[][] tetrisBlockModelComposition) {
+		TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
+		
+		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
+			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
+				TetrisBlockModel tetrisBlockModel = tetrisBlockModelComposition[i][j];
+				
+				if (tetrisBlockModel != null) {
+					Rectangle tetrisBlockModelPosition = tetrisBlockModel.getRectangle();
+					
+					if (tetrisBlockMatrix[tetrisBlockModelPosition.y][tetrisBlockModelPosition.x] != null) {
+						return true;
+					}
+				}
+			}
+		}
+    	
+    	return false;
+	}
+	
 	private boolean isTetrominoIntersectingWithTheBorders(TetrisBlockModel[][] tetrisBlockModelComposition) {
 		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
 			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
@@ -263,25 +283,5 @@ public class CollisionDetectionService implements ICollisionDetectionService {
 		}
 		
 		return false;
-	}
-	
-	private boolean isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(TetrisMatrixModel tetrisMatrixModel, TetrisBlockModel[][] tetrisBlockModelComposition) {
-		TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
-		
-		for (int i = 0; i < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; i++) {
-			for (int j = 0; j < TETRISBLOCKMODELCOMPOSITION_MAXLENGTH; j++) {
-				TetrisBlockModel tetrisBlockModel = tetrisBlockModelComposition[i][j];
-				
-				if (tetrisBlockModel != null) {
-					Rectangle tetrisBlockModelPosition = tetrisBlockModel.getRectangle();
-					
-					if (tetrisBlockMatrix[tetrisBlockModelPosition.y][tetrisBlockModelPosition.x] != null) {
-						return true;
-					}
-				}
-			}
-		}
-    	
-    	return false;
 	}
 }

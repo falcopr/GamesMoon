@@ -44,6 +44,27 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                 
                 if (tetrisBlockModel != null) {
                     tetrisBlockModel.setPosition(i, centerOfTetrisMatrixModel + j);
+                }
+            }
+        }
+        
+        boolean isIntersecting = m_CollisionDetectionService.isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(tetrisMatrixModel, tetrisBlockComposition);
+        
+        if (isIntersecting) {
+        	this.cleanUpTetrisMatrixArea(tetrisMatrixModel);
+        	try {
+				this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        for (int i = 0; i < tetrisBlockComposition.length; i++) {
+            for (int j = 0; j < tetrisBlockComposition[i].length; j++) {
+                TetrisBlockModel tetrisBlockModel = tetrisBlockComposition[i][j];
+                
+                if (tetrisBlockModel != null) {
                     tetrisMatrixModel.addTetrisBlockToMatrix(tetrisBlockModel);
                 }
             }
@@ -237,5 +258,15 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         		}
             }
     	}
+    }
+    
+    private void cleanUpTetrisMatrixArea(TetrisMatrixModel tetrisMatrixModel) {
+        TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
+    	
+    	for (int i = 0; i < tetrisBlockMatrix.length; i++) {
+            for (int j = 0; j < tetrisBlockMatrix[i].length; j++) {
+                tetrisBlockMatrix[i][j] = null;
+            }
+        }
     }
 }
