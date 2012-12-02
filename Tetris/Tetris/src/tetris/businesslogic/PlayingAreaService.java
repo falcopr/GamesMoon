@@ -55,11 +55,11 @@ public class PlayingAreaService implements IPlayingAreaService
         JLabel level = view.getLevelLabel();
         
         score.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
-        userName.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
+        //userName.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
         level.setFont(new Font(INFO_FONTNAME, INFO_FONTSTYLE, INFO_FONTSIZE));
         
         score.setText(SCORE_LABELPREFIX + model.getScore());
-        userName.setText(USERNAME_LABELPREFIX + model.getUserName());
+        //userName.setText(USERNAME_LABELPREFIX + model.getUserName());
         level.setText(LEVEL_LABELPREFIX + model.getLevel());
         
         JLabel headerText = view.getHeaderText();
@@ -75,7 +75,7 @@ public class PlayingAreaService implements IPlayingAreaService
         view.setHeaderText(headerText);
         view.setLevelLabel(level);
         view.setScoreLabel(score);
-        view.setUserNameLabel(userName);
+        //view.setUserNameLabel(userName);
         
         // test for colors to show panel proportions
         headerArea.setBackground(Color.GREEN);

@@ -23,7 +23,7 @@ public class TetrisPlayingAreaConfiguration
     public final static int TETRISMATRIXAREA_HEIGHT = TETRISBLOCK_HEIGHT * TETRISBLOCK_LENGTH;
     
     public final static int HEADERAREA_WIDTH = MAXWIDTH;
-    public final static int HEADERAREA_HEIGHT = 640 - TETRISMATRIXAREA_HEIGHT - 46;
+    public final static int HEADERAREA_HEIGHT = 640 - TETRISMATRIXAREA_HEIGHT - 1;
     
     public final static int INFOAREA_WIDTH = MAXWIDTH - TETRISMATRIXAREA_WIDTH - 1;
     public final static int INFOAREA_HEIGHT = MAXHEIGHT - HEADERAREA_HEIGHT;
