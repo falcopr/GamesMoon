@@ -54,6 +54,12 @@ public class TetrisPlayingAreaConfiguration
     public final static int TETRISPLAYINGAREA_LEVEL = 1;
     public final static int TETRISPLAYINGAREA_LINES = 0;
     
+    // points for eliminating one row
+    public final static int TETRISBLOCKROW_ROWBASEPOINTS = 500;
+    
+    // points for placing the tetromino
+    public final static int TETRISBLOCKROW_PLACINGBASEPOINTS = 100;
+    
     // Keyboard Configuration
     public final static int SHIFTLEFT = 37; // Left Arrow
     public final static int SHIFTRIGHT = 39; // Right Arrow

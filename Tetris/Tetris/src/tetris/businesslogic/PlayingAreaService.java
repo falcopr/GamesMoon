@@ -11,7 +11,6 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
@@ -149,6 +148,10 @@ public class PlayingAreaService implements IPlayingAreaService
     	m_TetrisMatrixAreaService.restartTetrisMatrixArea(playingAreaModel.getTetrisMatrixModel());
     	this.resetPlayingAreaModel(playingAreaModel);
     	this.resetPlayingAreaView(view, playingAreaModel);
+    }
+    
+    public int calculatePointsOnRowEliminationAndLevel(int rowsEliminated, int level) {
+    	return TETRISBLOCKROW_ROWBASEPOINTS * rowsEliminated * level;
     }
     
     private void resetPlayingAreaModel(TetrisPlayingAreaModel model) {

@@ -109,8 +109,21 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     	
     	if (isIntersected && movementDirection == TetrisBlockMovementDirection.SOUTH) {
     		try {
+    			int oldScore = m_Model.getScore();
+    			int newScorePlacingTetromino = oldScore + TETRISBLOCKROW_PLACINGBASEPOINTS;
+    			m_Model.setScore(newScorePlacingTetromino);
+    			m_View.setLabelScoreText(newScorePlacingTetromino);
+    			
+    			int rowsEliminated = closedRowCount.get();
     			int oldLineCount = m_Model.getLines();
-    			int newLineCount = oldLineCount + closedRowCount.get();
+    			int newLineCount = oldLineCount + rowsEliminated;
+    			
+    			if (rowsEliminated > 0) {
+    				int rowsEliminatedPoints = m_PlayingAreaService.calculatePointsOnRowEliminationAndLevel(rowsEliminated, m_Model.getLevel());
+        			newScorePlacingTetromino += rowsEliminatedPoints;
+    				m_Model.setScore(newScorePlacingTetromino);
+        			m_View.setLabelScoreText(newScorePlacingTetromino);
+    			}
     			
     			int oldLevelThroughLineCount = oldLineCount / TETRISBLOCKROWLEVEL_THRESHOLD;
     			int newLevelThroughLineCount = newLineCount / TETRISBLOCKROWLEVEL_THRESHOLD;
