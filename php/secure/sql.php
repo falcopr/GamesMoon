@@ -33,8 +33,8 @@ function createUser($alias, $pwd) {
         if($stmt->execute()) {
             $return =  right_pwd($alias, $pwd);
         }
+	$stmt->closeCursor();
     }
-    $stmt->closeCursor();
     return $return;
 }
 

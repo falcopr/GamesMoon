@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/picocontainer-2.14.1.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/java-plugin-1.6.0.23.jar"/>
-	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
