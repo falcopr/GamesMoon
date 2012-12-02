@@ -75,8 +75,15 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnTranslation(currentTetrominoModel, movementDirection);
 
     		if (isCollidedToBorder) {
-    			if (movementDirection == TetrisBlockMovementDirection.SOUTH) {
+    			if (m_CollisionDetectionService.isTetrominoOutOfBottomBordersOnTranslation(currentTetrominoModel, movementDirection)) {
     				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
+    				
+        			try {
+    					this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
+    				} catch (Exception e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
     			}
     			
     			return;
@@ -85,7 +92,17 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(tetrisMatrixModel, currentTetrominoModel, movementDirection);
     		
     		if (isCollidedWithOtherTetrisBlock) {
-				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
+    			if (movementDirection == TetrisBlockMovementDirection.SOUTH) {
+    				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
+    				
+        			try {
+    					this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
+    				} catch (Exception e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}
+				
     			return;
     		}
     		

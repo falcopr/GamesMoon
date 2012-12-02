@@ -39,6 +39,7 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     public void initializePlayingArea() throws Exception
     {
         m_PlayingAreaService.configuratePlayingAreaView(m_View, m_Model);
+        m_TetrisMatrixAreaService.addTetromino(m_TetrominoService.getNext(), m_Model.getTetrisMatrixModel());
     }
     
     public void updatePlayingArea() {

@@ -72,6 +72,29 @@ public class CollisionDetectionService implements ICollisionDetectionService {
     	return isOutOfBorder;
 	}
 	
+	public boolean isTetrominoOutOfBottomBordersOnTranslation(TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection) {
+    	boolean isOutOfBorder = false;
+    	Point movementVector = movementDirectionToVector(movementDirection);
+    	
+		TetrisBlockModel[][] tetriminoBlockComposition = tetromino.getTetrominoBlockComposition();
+    	for (int i = 0; i < tetriminoBlockComposition.length; i++) {
+            for (int j = 0; j < tetriminoBlockComposition[i].length; j++) {
+            	TetrisBlockModel tetrisBlockModel = tetriminoBlockComposition[i][j];
+            	
+            	if (tetrisBlockModel != null) {
+            		Rectangle tetrisBlockPosition = tetrisBlockModel.getRectangle();
+            		int yFutureTetrisBlockPosition = tetrisBlockPosition.y + movementVector.y;
+            		
+            		if (yFutureTetrisBlockPosition >= TETRISBLOCK_HEIGHT) {
+            			return true;
+            		}
+            	}
+            }
+    	}
+    	
+    	return isOutOfBorder;
+	}
+	
 	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection) {
     	boolean isCollidingWithTetrisBlock = false;
 		TetrisBlockModel[][] tetriminoBlockComposition = tetromino.getTetrominoBlockComposition();

@@ -90,10 +90,10 @@ public class PlayingAreaView implements IPlayingAreaView
                 case ROTATERIGHT:
                     m_Presenter.rotateRightTetromino();
                     break;
-                case 87: // w
-                	// add Tetrismino test
-                	m_Presenter.addTetromino();
-                	break;
+//                case 87: // w
+//                	// add Tetrismino test
+//                	m_Presenter.addTetromino();
+//                	break;
                 case 83: // s
                 	// Punktesendung
                 	try {
@@ -102,12 +102,12 @@ public class PlayingAreaView implements IPlayingAreaView
 						e.printStackTrace();
 					}
                 	break;
-                case 81: // q
-                	m_Presenter.clearCurrentTetrominoFromMatrix();
-                	break;
-                case 69: // e
-                	m_Presenter.setCurrentTetrominoInMatrix();
-                	break;
+//                case 81: // q
+//                	m_Presenter.clearCurrentTetrominoFromMatrix();
+//                	break;
+//                case 69: // e
+//                	m_Presenter.setCurrentTetrominoInMatrix();
+//                	break;
                 default:
                     evt.consume();
                     return;

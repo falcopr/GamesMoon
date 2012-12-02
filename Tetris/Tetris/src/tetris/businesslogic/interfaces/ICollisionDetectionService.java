@@ -11,4 +11,5 @@ public interface ICollisionDetectionService {
 	boolean isTetrominoOutOfBordersOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
 	boolean isTetrominoCollidingWithOtherTetrisBlocksOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
 	boolean isTetrominoCollidingWithOtherTetrisBlocksOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino);
+	boolean isTetrominoOutOfBottomBordersOnTranslation(TetrominoModel tetromino, TetrisBlockMovementDirection movementDirection);
 }
