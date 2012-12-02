@@ -56,4 +56,6 @@ public interface IPlayingAreaView
     void setLabelScoreText(int score);
     
     void setLabelLevelText(int level);
+    
+    ServerConnector getServerConnector();
 }
