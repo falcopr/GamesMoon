@@ -166,15 +166,60 @@ public class CollisionDetectionService implements ICollisionDetectionService {
 	}
 	
 	public boolean isTetrominoOutOfBordersOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
-		return true;
+		TetrisBlockModel[][] clonedTetrisBlockModelComposition = m_TetrominoService.cloneTetrominoBlockModelComposition(tetromino);
+		
+		Point currentTetrominoPosition = tetromino.getPosition();
+		
+		TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateCounterClockwise(clonedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	
+    	m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    	tetrisMatrixModel.setCurrentTetromino(null);
+    	
+		boolean isIntersecting = isTetrominoIntersectingWithTheBorders(translatedTetrisBlockModelComposition);
+		
+    	tetrisMatrixModel.setCurrentTetromino(tetromino);
+		m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+		
+		return isIntersecting;
 	}
 	
 	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
-		return true;
+		TetrisBlockModel[][] clonedTetrisBlockModelComposition = m_TetrominoService.cloneTetrominoBlockModelComposition(tetromino);
+		
+		Point currentTetrominoPosition = tetromino.getPosition();
+		
+		TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateClockwise(clonedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	
+    	m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    	tetrisMatrixModel.setCurrentTetromino(null);
+    	
+		boolean isIntersecting = isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(tetrisMatrixModel, translatedTetrisBlockModelComposition);
+		
+    	tetrisMatrixModel.setCurrentTetromino(tetromino);
+		m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+		
+		return isIntersecting;
 	}
 	
 	public boolean isTetrominoCollidingWithOtherTetrisBlocksOnCounterClockwiseRotation(TetrisMatrixModel tetrisMatrixModel, TetrominoModel tetromino) {
-		return true;
+		TetrisBlockModel[][] clonedTetrisBlockModelComposition = m_TetrominoService.cloneTetrominoBlockModelComposition(tetromino);
+		
+		Point currentTetrominoPosition = tetromino.getPosition();
+		
+		TetrisBlockModel[][] rotatedTetrisBlockModelComposition = m_TetrominoService.rotateCounterClockwise(clonedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	TetrisBlockModel[][] translatedTetrisBlockModelComposition = m_TetrominoService.translateToOrigin(rotatedTetrisBlockModelComposition, currentTetrominoPosition.x, currentTetrominoPosition.y);
+    	
+    	m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
+    	tetrisMatrixModel.setCurrentTetromino(null);
+    	
+		boolean isIntersecting = isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(tetrisMatrixModel, translatedTetrisBlockModelComposition);
+		
+    	tetrisMatrixModel.setCurrentTetromino(tetromino);
+		m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+		
+		return isIntersecting;
 	}
 	
 	private boolean isTetrominoIntersectingWithTheBorders(TetrisBlockModel[][] tetrisBlockModelComposition) {

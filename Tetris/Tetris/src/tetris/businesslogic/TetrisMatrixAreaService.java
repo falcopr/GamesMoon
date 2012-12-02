@@ -130,6 +130,12 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     			return;
     		}
     		
+    		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnClockwiseRotation(tetrisMatrixModel, currentTetrominoModel);
+    		
+    		if (isCollidedWithOtherTetrisBlock) {
+    			return;
+    		}
+    		
     		TetrisBlockModel[][] tetrisBlockModelComposition = currentTetrominoModel.getTetrominoBlockComposition();
     		
     		m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
@@ -146,6 +152,18 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     public void rotateCounterClockwise(TetrisMatrixModel tetrisMatrixModel) {
     	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
     	if (currentTetrominoModel != null) {
+    		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnCounterClockwiseRotation(tetrisMatrixModel, currentTetrominoModel);
+    		
+    		if (isCollidedToBorder) {
+    			return;
+    		}
+    		
+    		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnCounterClockwiseRotation(tetrisMatrixModel, currentTetrominoModel);
+    		
+    		if (isCollidedWithOtherTetrisBlock) {
+    			return;
+    		}
+    		
     		TetrisBlockModel[][] tetrisBlockModelComposition = currentTetrominoModel.getTetrominoBlockComposition();
     		
     		m_TetrominoService.clearCurrentTetriminoFromMatrix(tetrisMatrixModel);
