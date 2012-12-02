@@ -73,8 +73,14 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     	if (currentTetrominoModel != null) {
     		
     		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnTranslation(currentTetrominoModel, movementDirection);
-    		
+
     		if (isCollidedToBorder) {
+    			return;
+    		}
+    		
+    		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocks(tetrisMatrixModel, currentTetrominoModel, movementDirection);
+    		
+    		if (isCollidedWithOtherTetrisBlock) {
     			return;
     		}
     		

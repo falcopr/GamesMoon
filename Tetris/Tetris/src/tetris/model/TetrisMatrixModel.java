@@ -28,7 +28,7 @@ public class TetrisMatrixModel {
 		this.m_Width = width;
 		this.m_Height = heigth;
 		
-		m_TetrisBlockMatrix = new TetrisBlockModel[getHeight()][getWidth()];
+		m_TetrisBlockMatrix = new TetrisBlockModel[heigth][width];
 		
 		// initialize matrix empty
 		for (int i = 0; i < getWidth(); i++) {
