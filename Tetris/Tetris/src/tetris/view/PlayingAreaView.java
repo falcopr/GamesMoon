@@ -237,4 +237,16 @@ public class PlayingAreaView implements IPlayingAreaView
 	public void setServerConnector(ServerConnector serverConnector) {
 		this.m_ServerConnector = serverConnector;  
 	}
+
+	public void setTimerSpeed(int speed) {
+		m_Timer.setDelay(speed);
+	}
+
+	public void setLabelScoreText(int score) {
+		m_ScoreLabel.setText(SCORE_LABELPREFIX + score);
+	}
+
+	public void setLabelLevelText(int level) {
+		m_LevelLabel.setText(LEVEL_LABELPREFIX + level);
+	}
 }

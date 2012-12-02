@@ -1,6 +1,7 @@
 package tetris.businesslogic.interfaces;
 
 import java.awt.Graphics;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.JPanel;
 
@@ -11,13 +12,15 @@ import tetris.model.TetrominoModel;
 
 public interface ITetrisMatrixAreaService
 {
-	void addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel);
+	boolean addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel);
 
     void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel);
     
-    void moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection);
+    boolean moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection, AtomicInteger closedRowCount);
     
     void rotateClockwise(TetrisMatrixModel tetrisMatrixModel);
     
     void rotateCounterClockwise(TetrisMatrixModel tetrisMatrixModel);
+    
+    void restartTetrisMatrixArea(TetrisMatrixModel tetrisMatrixModel);
 }

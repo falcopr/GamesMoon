@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.ICollisionDetectionService;
 import tetris.businesslogic.interfaces.ITetrisBlockService;
@@ -29,7 +31,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 		m_CollisionDetectionService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ICollisionDetectionService.class);
 	}
 	
-    public void addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel) {
+	// if its true it had a intersection with another block so the game should be over
+    public boolean addTetromino(TetrominoModel tetrominoModel, TetrisMatrixModel tetrisMatrixModel) {
         tetrisMatrixModel.setCurrentTetromino(tetrominoModel);
         // Blockcomposition of tetromino
         TetrisBlockModel[][] tetrisBlockComposition = tetrominoModel.getTetrominoBlockComposition();
@@ -51,13 +54,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         boolean isIntersecting = m_CollisionDetectionService.isTetrominoIntersectingWithOtherTetrisBlocksOnTetrisMatrixModel(tetrisMatrixModel, tetrisBlockComposition);
         
         if (isIntersecting) {
-        	this.cleanUpTetrisMatrixArea(tetrisMatrixModel);
-        	try {
-				this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	// GAME OVER
+        	return true;
         }
         
         for (int i = 0; i < tetrisBlockComposition.length; i++) {
@@ -69,6 +67,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                 }
             }
         }
+        
+        return false;
     }
     
     public void repaintAllTetrisBlocks(Graphics g, TetrisMatrixModel tetrisMatrixModel) {
@@ -88,7 +88,9 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         }
     }
     
-    public void moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection) {
+    // indicates, if the tetromino collided with a block --> sets value of closedRowCount (Call by Reference)
+    // Call by Reference für ein Integer gibt es nicht! So ein blödsinn. FP
+    public boolean moveCurrentTetromino(TetrisMatrixModel tetrisMatrixModel, TetrisBlockMovementDirection movementDirection, AtomicInteger closedRowCount) {
     	TetrominoModel currentTetrominoModel = tetrisMatrixModel.getCurrentTetromino();
     	
     	if (currentTetrominoModel != null) {
@@ -97,34 +99,20 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 
     		if (isCollidedToBorder) {
     			if (movementDirection == TetrisBlockMovementDirection.SOUTH) {
-    				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
-    				
-        			try {
-    					this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
-    				} catch (Exception e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
+    				closedRowCount.set(this.translateUpperNoneClosedRowsDownwards(tetrisMatrixModel));
     			}
     			
-    			return;
+    			return true;
     		}
     		
     		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(tetrisMatrixModel, currentTetrominoModel, movementDirection);
     		
     		if (isCollidedWithOtherTetrisBlock) {
     			if (movementDirection == TetrisBlockMovementDirection.SOUTH) {
-    				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
-    				
-        			try {
-    					this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
-    				} catch (Exception e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
+    				closedRowCount.set(this.translateUpperNoneClosedRowsDownwards(tetrisMatrixModel));
     			}
 				
-    			return;
+    			return true;
     		}
     		
         	Point currentTetriminoPosition = currentTetrominoModel.getPosition();
@@ -143,7 +131,7 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
             	currentTetriminoPosition.x++;
                 break;
             default:
-                return;
+                return false;
             }
     		
         	// cleanup current tetromino position from matrix
@@ -162,6 +150,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
                 }
             }
     	}
+    	
+    	return false;
     }
     
     public void rotateClockwise(TetrisMatrixModel tetrisMatrixModel) {
@@ -220,7 +210,18 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     	}
     }
     
-    private void translateUpperNoneClosedRowsDownwards(TetrisMatrixModel tetrisMatrixModel) {
+    public void restartTetrisMatrixArea(TetrisMatrixModel tetrisMatrixModel) {
+    	this.cleanUpTetrisMatrixArea(tetrisMatrixModel);
+    	
+    	try {
+			this.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    private int translateUpperNoneClosedRowsDownwards(TetrisMatrixModel tetrisMatrixModel) {
     	TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
     	
     	int closedLineCount = 0;
@@ -258,6 +259,8 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
         		}
             }
     	}
+    	
+    	return closedLineCount;
     }
     
     private void cleanUpTetrisMatrixArea(TetrisMatrixModel tetrisMatrixModel) {

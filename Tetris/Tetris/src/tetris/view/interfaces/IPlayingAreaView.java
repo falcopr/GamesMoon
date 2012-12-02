@@ -50,4 +50,10 @@ public interface IPlayingAreaView
     void setTimer(Timer timer);
     
     void setServerConnector(ServerConnector serverConnector);
+    
+    void setTimerSpeed(int speed);
+    
+    void setLabelScoreText(int score);
+    
+    void setLabelLevelText(int level);
 }

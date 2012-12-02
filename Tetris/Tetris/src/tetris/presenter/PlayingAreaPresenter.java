@@ -1,13 +1,18 @@
 package tetris.presenter;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
 import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
 import tetris.businesslogic.interfaces.ITetrominoService;
 import tetris.enums.TetrisBlockMovementDirection;
+import tetris.model.TetrisMatrixModel;
 import tetris.model.TetrisPlayingAreaModel;
 import tetris.presenter.interfaces.IPlayingAreaPresenter;
 import tetris.view.interfaces.IPlayingAreaView;
+
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class PlayingAreaPresenter implements IPlayingAreaPresenter
 {
@@ -43,26 +48,22 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     }
     
     public void updatePlayingArea() {
-    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.SOUTH);
-    	m_View.getTetrisMatrixArea().repaint();
+    	mainTetrominoTranslationUpdater(TetrisBlockMovementDirection.SOUTH);
     }
     
     public void shiftTetrominoLeft()
     {
-    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.WEST);
-        m_View.getTetrisMatrixArea().repaint();
+    	mainTetrominoTranslationUpdater(TetrisBlockMovementDirection.WEST);
     }
 
     public void shiftTetrominoRight()
     {
-    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.EAST);
-        m_View.getTetrisMatrixArea().repaint();
+    	mainTetrominoTranslationUpdater(TetrisBlockMovementDirection.EAST);
     }
 
     public void softDropTetromino()
     {
-    	m_TetrisMatrixAreaService.moveCurrentTetromino(m_Model.getTetrisMatrixModel(), TetrisBlockMovementDirection.SOUTH);
-        m_View.getTetrisMatrixArea().repaint();
+    	mainTetrominoTranslationUpdater(TetrisBlockMovementDirection.SOUTH);
     }
 
     public void rotateLeftTetromino()
@@ -97,5 +98,53 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     public void setCurrentTetrominoInMatrix() {
     	m_TetrominoService.setCurrentTetriminoCompositionToMatrix(m_Model.getTetrisMatrixModel());
     	
+    }
+    
+    private void mainTetrominoTranslationUpdater(TetrisBlockMovementDirection movementDirection) {
+    	TetrisMatrixModel tetrisMatrixModel = m_Model.getTetrisMatrixModel();
+    	
+    	AtomicInteger closedRowCount = new AtomicInteger(0);
+    	boolean isIntersected = m_TetrisMatrixAreaService.moveCurrentTetromino(tetrisMatrixModel, movementDirection, closedRowCount);
+    	m_View.getTetrisMatrixArea().repaint();
+    	
+    	if (isIntersected && movementDirection == TetrisBlockMovementDirection.SOUTH) {
+    		try {
+    			int oldLineCount = m_Model.getLines();
+    			int newLineCount = oldLineCount + closedRowCount.get();
+    			
+    			int oldLevelThroughLineCount = oldLineCount / TETRISBLOCKROWLEVEL_THRESHOLD;
+    			int newLevelThroughLineCount = newLineCount / TETRISBLOCKROWLEVEL_THRESHOLD;
+    			
+    			// when new level is reached
+    			if (oldLevelThroughLineCount < newLevelThroughLineCount) {
+    				int oldLevel = m_Model.getLevel();
+    				int newLevel = oldLevel + 1;
+    				
+    				m_Model.setLevel(newLevel);
+    				m_View.setLabelLevelText(newLevel);
+    				
+    				int oldSpeed = m_Model.getSpeed();
+    				int newSpeed = (int) Math.round(oldSpeed * TIMERINCREASINGCONSTANT);
+    				
+        			System.out.println("Increased Speed: " + newSpeed);
+    				
+    				m_Model.setSpeed(newSpeed);
+    				m_View.setTimerSpeed(newSpeed);
+    			}
+    			
+    			m_Model.setLines(newLineCount);
+    			
+    			System.out.println("Lines eliminated: " + m_Model.getLines());
+				
+    			boolean isGameOver = m_TetrisMatrixAreaService.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
+				
+				if (isGameOver) {
+					m_PlayingAreaService.restartPlayingArea(m_View, m_Model);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
 }

@@ -1,9 +1,12 @@
 package tetris.model;
 
+import static tetris.common.TetrisPlayingAreaConfiguration.*;
+
 public class TetrisPlayingAreaModel
 {
     private int m_Score;
     private int m_Level;
+    private int m_Lines;
     private String m_UserName;
     private TetrisMatrixModel m_TetrisMatrixModel;
     private boolean m_Pause;
@@ -13,8 +16,9 @@ public class TetrisPlayingAreaModel
     public TetrisPlayingAreaModel() {
         m_UserName = "Anonymous";
         m_Pause = true;
-        m_Score = 0;
-        m_Level = 1;
+        m_Lines = TETRISPLAYINGAREA_LINES;
+        m_Score = TETRISPLAYINGAREA_SCORE;
+        m_Level = TETRISPLAYINGAREA_LEVEL;
         this.m_TetrisMatrixModel = new TetrisMatrixModel();
     }
     
@@ -76,5 +80,15 @@ public class TetrisPlayingAreaModel
     public void setSpeed(int speed)
     {
         this.m_Speed = speed;
+    }
+    
+    public int getLines()
+    {
+        return m_Lines;
+    }
+
+    public void setLines(int lines)
+    {
+        this.m_Lines = lines;
     }
 }

@@ -11,8 +11,11 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
+import tetris.businesslogic.container.BusinessLogicContainer;
 import tetris.businesslogic.interfaces.IPlayingAreaService;
+import tetris.businesslogic.interfaces.ITetrisMatrixAreaService;
 import tetris.controls.TetrisMatrixPanel;
 import tetris.model.TetrisPlayingAreaModel;
 import tetris.view.interfaces.IPlayingAreaView;
@@ -21,6 +24,12 @@ import static tetris.common.TetrisPlayingAreaConfiguration.*;
 
 public class PlayingAreaService implements IPlayingAreaService
 {
+	public ITetrisMatrixAreaService m_TetrisMatrixAreaService;
+	
+	public PlayingAreaService() {
+		m_TetrisMatrixAreaService = BusinessLogicContainer.getBusinessLogicContainer().getComponent(ITetrisMatrixAreaService.class);
+	}
+	
     // view is a JPanel at this moment --> should be constructed generic later
     public void configuratePlayingAreaView(IPlayingAreaView view, TetrisPlayingAreaModel model) throws Exception {
         JPanel playingAreaPanel = view.getPlayingAreaPanel();
@@ -39,6 +48,8 @@ public class PlayingAreaService implements IPlayingAreaService
         headerArea.setLayout(null);
         tetrisMatrixArea.setLayout(null);
         infoArea.setLayout(infoAreaBorderLayout);
+        
+        model.setSpeed(TIMERDELAY_DEFAULT);
         
         JLabel score = view.getScoreLabel();
         JLabel userName = view.getUserNameLabel();
@@ -132,5 +143,26 @@ public class PlayingAreaService implements IPlayingAreaService
         playingAreaPanel.requestFocusInWindow();
         playingAreaPanel.setDoubleBuffered(true);
         playingAreaPanel.setVisible(true);
+    }
+    
+    public void restartPlayingArea(IPlayingAreaView view, TetrisPlayingAreaModel playingAreaModel) {
+    	m_TetrisMatrixAreaService.restartTetrisMatrixArea(playingAreaModel.getTetrisMatrixModel());
+    	this.resetPlayingAreaModel(playingAreaModel);
+    	this.resetPlayingAreaView(view, playingAreaModel);
+    }
+    
+    private void resetPlayingAreaModel(TetrisPlayingAreaModel model) {
+    	model.setLevel(TETRISPLAYINGAREA_LEVEL);
+    	model.setLines(TETRISPLAYINGAREA_LINES);
+    	model.setScore(TETRISPLAYINGAREA_SCORE);
+    	model.setSpeed(TIMERDELAY_DEFAULT);
+    }
+    
+    private void resetPlayingAreaView(IPlayingAreaView view, TetrisPlayingAreaModel model) {
+    	view.setLabelLevelText(model.getLevel());
+    	view.setLabelScoreText(model.getScore());
+    	view.setTimerSpeed(model.getSpeed());
+    	
+    	view.getTimer().start();
     }
 }

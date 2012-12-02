@@ -46,6 +46,13 @@ public class TetrisPlayingAreaConfiguration
     public final static String INFO_ORIENTATION = BorderLayout.CENTER;
     
     public final static int TETRISBLOCKMODELCOMPOSITION_MAXLENGTH = 4;
+    public final static int TETRISBLOCKROWLEVEL_THRESHOLD = 10;
+    
+    public final static double TIMERINCREASINGCONSTANT = 0.89d;
+    
+    public final static int TETRISPLAYINGAREA_SCORE = 0;
+    public final static int TETRISPLAYINGAREA_LEVEL = 1;
+    public final static int TETRISPLAYINGAREA_LINES = 0;
     
     // Keyboard Configuration
     public final static int SHIFTLEFT = 37; // Left Arrow
