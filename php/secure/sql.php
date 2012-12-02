@@ -186,6 +186,19 @@ function getGame($id) {
     return $return;
 }
 
+function getGameLibs($id) {
+    $return = -1;
+
+    $dbh = getdbh();
+    $stmt = $dbh->prepare("Select lib_name from games_libs where game_id=:id;");
+    $stmt->bindParam(':id', $id);
+    if($stmt->execute()) {
+        $return = $stmt->fetchAll();
+    }
+    $stmt->closeCursor();
+    return $return;
+}
+
 function insertScore($game_id, $user_id, $score) {
     $return = FALSE;
     

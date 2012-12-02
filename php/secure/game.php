@@ -31,8 +31,13 @@ function formatGameTab($id) {
     global $LOCATION;
     
     $game=getGame($id);
+    $libs=getGameLibs($id);
+    $libs_string = "";
+    foreach ($libs as &$lib) {
+	$libs_string .= ",".$lib["lib_name"];
+    }
     $html='<object name="applet_game" type="application/x-java-applet" width='.$game["width"].' height='.$game["height"].'>
-    <param name="archive" value="'.$game["path"].'" >
+    <param name="archive" value="'.$game["path"].$libs_string.'" >
     <param name="classid" value="java:'.$game["startfile"].'" >
     <param name="path" value="'.$LOCATION.'">
     </object>';
