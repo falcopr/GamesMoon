@@ -5,16 +5,17 @@
 body
 {
 
+/*
   background-image: url(pic/tetris_bg.jpg);
   background-repeat:no-repeat;
   background-position:center;
   background-attachment:fixed
-/*
+*/
   background-image: url(pic/joy.jpg);
   background-repeat:no-repeat;
   background-position:center;
   background-attachment:fixed
-*/
+
 }
 
 
@@ -39,7 +40,7 @@ h1 span#pu {font-size:28px; margin-bottom:18px; color: #9900CC}
 
 h2 {font-size:21px; margin-bottom:18px; }
 
-p span{color: #FFFF00}
+p span{color: #FF0000}
 /*p span{color: #FF0000}
 */
 
