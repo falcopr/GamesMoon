@@ -152,7 +152,12 @@ public class PlayingAreaPresenter implements IPlayingAreaPresenter
     			boolean isGameOver = m_TetrisMatrixAreaService.addTetromino(m_TetrominoService.getNext(), tetrisMatrixModel);
 				
 				if (isGameOver) {
-					m_View.getServerConnector().sendScore(m_Model.getScore());
+				    try {
+	                    m_View.getServerConnector().sendScore(m_Model.getScore());
+				    } catch (Exception e) {
+		                // TODO Auto-generated catch block
+		                e.printStackTrace();
+		            }
 					m_PlayingAreaService.restartPlayingArea(m_View, m_Model);
 				}
 			} catch (Exception e) {
