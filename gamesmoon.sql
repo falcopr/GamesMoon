@@ -26,6 +26,12 @@ height int,
 startfile varchar(150)
 );
 
+CREATE TABLE games_libs (
+id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+game_id int,
+lib_name varchar(50)
+);
+
 CREATE TABLE game_sessions (
 id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 session_id int,

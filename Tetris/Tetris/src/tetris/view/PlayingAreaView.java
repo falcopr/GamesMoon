@@ -94,14 +94,14 @@ public class PlayingAreaView implements IPlayingAreaView
 //                	// add Tetrismino test
 //                	m_Presenter.addTetromino();
 //                	break;
-                case 83: // s
-                	// Punktesendung
-                	try {
-						m_ServerConnector.sendScore(9000);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-                	break;
+//                case 83: // s
+//                	// Punktesendung
+//                	try {
+//						m_ServerConnector.sendScore(9000);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//                	break;
 //                case 81: // q
 //                	m_Presenter.clearCurrentTetrominoFromMatrix();
 //                	break;
@@ -248,5 +248,9 @@ public class PlayingAreaView implements IPlayingAreaView
 
 	public void setLabelLevelText(int level) {
 		m_LevelLabel.setText(LEVEL_LABELPREFIX + level);
+	}
+	
+	public ServerConnector getServerConnector() {
+		return this.m_ServerConnector;
 	}
 }
