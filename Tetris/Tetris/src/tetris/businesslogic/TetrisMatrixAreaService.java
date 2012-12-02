@@ -75,12 +75,17 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
     		boolean isCollidedToBorder = m_CollisionDetectionService.isTetrominoOutOfBordersOnTranslation(currentTetrominoModel, movementDirection);
 
     		if (isCollidedToBorder) {
+    			if (movementDirection == TetrisBlockMovementDirection.SOUTH) {
+    				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
+    			}
+    			
     			return;
     		}
     		
     		boolean isCollidedWithOtherTetrisBlock = m_CollisionDetectionService.isTetrominoCollidingWithOtherTetrisBlocksOnTranslation(tetrisMatrixModel, currentTetrominoModel, movementDirection);
     		
     		if (isCollidedWithOtherTetrisBlock) {
+				translateUpperNoneClosedRowsDownwards(tetrisMatrixModel);
     			return;
     		}
     		
@@ -174,6 +179,46 @@ public class TetrisMatrixAreaService implements ITetrisMatrixAreaService
 	    	
 	    	currentTetrominoModel.setTetrominoBlockComposition(translatedTetrisBlockModelComposition);
 	    	m_TetrominoService.setCurrentTetriminoCompositionToMatrix(tetrisMatrixModel);
+    	}
+    }
+    
+    private void translateUpperNoneClosedRowsDownwards(TetrisMatrixModel tetrisMatrixModel) {
+    	TetrisBlockModel[][] tetrisBlockMatrix = tetrisMatrixModel.getTetrisBlockMatrix();
+    	
+    	int closedLineCount = 0;
+    	
+    	for (int i = 0; i < tetrisBlockMatrix.length; i++) {
+    		boolean isClosedLine = true;
+    		
+            for (int j = 0; j < tetrisBlockMatrix[i].length; j++) {
+            	TetrisBlockModel tetrisBlockModel = tetrisBlockMatrix[i][j];
+            	
+            	if (tetrisBlockModel == null) {
+            		isClosedLine = false;
+            		break;
+            	}
+            }
+            
+            if (isClosedLine) {
+            	closedLineCount++;
+            	
+            	// erase closed line
+        		for (int j = 0; j < tetrisBlockMatrix[i].length; j++) {
+        			tetrisBlockMatrix[i][j] = null;
+        		}
+        		
+        		for (int i1 = i; i1 > 1; i1--) {
+            		for (int j1 = 0; j1 < tetrisBlockMatrix[i1].length; j1++) {
+            			TetrisBlockModel ancestorTetrisBlock = tetrisBlockMatrix[i1 - 1][j1];
+            			
+            			if (ancestorTetrisBlock != null) {
+                			ancestorTetrisBlock.setPosition(i1 - 1, j1);
+            			}
+            			
+            			tetrisBlockMatrix[i1][j1] = ancestorTetrisBlock;
+            		}
+        		}
+            }
     	}
     }
 }
